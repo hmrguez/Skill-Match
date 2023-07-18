@@ -48,12 +48,12 @@ func NewMongoUserRepository() (*MongoUserRepository, error) {
 	}, nil
 }
 
-func (repo *MongoUserRepository) CreateUser(user Data.User) error {
-	_, err := repo.collection.InsertOne(context.Background(), user)
+func (repo *MongoUserRepository) CreateUser(user Data.User) (interface{}, error) {
+	res, err := repo.collection.InsertOne(context.Background(), user)
 	if err != nil {
-		return fmt.Errorf("failed to create user: %v", err)
+		return nil, fmt.Errorf("failed to create user: %v", err)
 	}
-	return nil
+	return res.InsertedID, nil
 }
 
 func (repo *MongoUserRepository) GetUserByID(userID primitive.ObjectID) (Data.User, error) {

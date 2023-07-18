@@ -49,12 +49,12 @@ func NewMongoCourseRepository() (*MongoCourseRepository, error) {
 	}, nil
 }
 
-func (repo *MongoCourseRepository) CreateCourse(course Data.Course) error {
-	_, err := repo.collection.InsertOne(context.Background(), course)
+func (repo *MongoCourseRepository) CreateCourse(course Data.Course) (interface{}, error) {
+	res, err := repo.collection.InsertOne(context.Background(), course)
 	if err != nil {
-		return fmt.Errorf("failed to create course: %v", err)
+		return nil, fmt.Errorf("failed to create course: %v", err)
 	}
-	return nil
+	return res.InsertedID, nil
 }
 
 func (repo *MongoCourseRepository) GetCourseByID(courseID primitive.ObjectID) (Data.Course, error) {

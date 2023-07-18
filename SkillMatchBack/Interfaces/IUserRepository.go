@@ -6,7 +6,7 @@ import (
 )
 
 type IUserRepository interface {
-	CreateUser(user Data.User) error
+	CreateUser(user Data.User) (interface{}, error)
 	GetUserByID(userID primitive.ObjectID) (Data.User, error)
 	GetUserByName(username string) (Data.User, error)
 	UpdateUser(user Data.User) error
