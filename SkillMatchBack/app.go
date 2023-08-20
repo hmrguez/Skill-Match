@@ -6,18 +6,18 @@ import (
 )
 
 func main() {
-	token := "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"
-	username := "hmrguez"
+	username := "zealot-algo"
 
-	user, err := Helper.GetUserWithGithubStats(username, token)
+	user, err := Helper.GetUserWithProblemStats(username)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return
 	}
 
 	fmt.Printf("User: %s\n", user.Username)
-	for lang, bytes := range user.Stats {
-		fmt.Printf("Language: %s, Bytes of Code: %d\n", lang, bytes)
+	fmt.Println("Problem Stats:")
+	for problem, score := range user.Stats {
+		fmt.Printf("Problem: %s, Score: %d\n", problem, score)
 	}
 }
 
