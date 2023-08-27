@@ -2,3 +2,14 @@
 @import '~node_modules/primeng/resources/themes/saga-blue/theme.css';
 @import '~node_modules/primeng/resources/primeng.min.css';
 @import '~node_modules/primeicons/primeicons.css';
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  position: relative;
+  font-family: 'Roboto', sans-serif;
+}
