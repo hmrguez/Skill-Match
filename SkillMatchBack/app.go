@@ -3,38 +3,31 @@ package main
 import (
 	"SkillMatchBack/Helper"
 	"fmt"
+	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
+	"os"
 )
 
 func main() {
-	username := "zealot-algo"
+	router := gin.Default()
 
-	user, err := Helper.GetUserWithProblemStats(username)
+	err := godotenv.Load()
 	if err != nil {
-		fmt.Println("Error:", err)
-		return
+		panic(fmt.Errorf("An error occurred when loading secret data: %v", err))
 	}
 
-	fmt.Printf("User: %s\n", user.Username)
-	fmt.Println("Problem Stats:")
-	for problem, score := range user.Stats {
-		fmt.Printf("Problem: %s, Score: %d\n", problem, score)
-	}
+	router.GET("/github-score/:username", GetGithubData)
+	router.Run("localhost:7000")
 }
 
-//package main
-//
-//import (
-//	"github.com/gin-gonic/gin"
-//	"net/http"
-//)
-//
-//func main() {
-//	router := gin.Default()
-//	router.GET("/temp", GetData)
-//	router.Run("localhost:7000")
-//}
-//
-//func GetData(c *gin.Context) {
-//	var wqre = []string{"asda", "asaaa"}
-//	c.IndentedJSON(http.StatusOK, wqre)
-//}
+func GetGithubData(c *gin.Context) {
+	username := c.Param("username")
+	token := os.Getenv("GITHUB_PAT")
+
+	user, err := Helper.GetUserWithGithubStats(username, token)
+	if err != nil {
+		panic(fmt.Errorf("An error occurred fetching user data: %v", err))
+	}
+
+	c.JSON(200, user)
+}
