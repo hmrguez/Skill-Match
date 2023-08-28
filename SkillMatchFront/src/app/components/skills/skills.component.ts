@@ -1,19 +1,14 @@
 import {Component, OnInit} from '@angular/core';
+import {Skill} from "../../model/skill";
+import {User} from "../../model/user";
+import {SkillSource} from "../../model/skillSource";
+import {UserService} from "../../services/user.service";
+import {getRankInfoFromXP} from "../../data/rank";
 
 interface Column {
   field: string;
   header: string;
 }
-
-interface Product{
-  code: string,
-  name: string,
-  category: string,
-  quantity: number,
-  inventoryStatus: string,
-  rating: number
-}
-
 
 @Component({
   selector: 'app-skills',
@@ -21,38 +16,55 @@ interface Product{
   styleUrls: ['./skills.component.scss']
 })
 export class SkillsComponent implements OnInit{
-  products!: Product[];
-  cols!: Column[];
+  user!: User
+  headerArray: Column[] = [];
+  skillArray: Skill[] = [];
+
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
-    this.products = this.getProducts()
+    this.user = this.userService.getUsers()[0]
+    const temp = this.getUserTableData(this.user);
+    this.headerArray = temp[0];
+    this.skillArray = temp[1]
+  }
 
-    this.cols = [
-      { field: 'code', header: 'Code' },
+  getUserTableData(user: User): [Column[], Skill[]] {
+    const columns: Column[] = [
       { field: 'name', header: 'Name' },
-      { field: 'category', header: 'Category' },
-      { field: 'quantity', header: 'Quantity' },
-      { field: 'inventoryStatus', header: 'Status' },
-      { field: 'rating', header: 'Rating' }
+      { field: 'rank', header: 'Rank'},
+      { field: 'progress', header: 'XP To Next Rank'},
     ];
-  }
 
-  getSeverity(status: string) {
-    switch (status) {
-      case 'INSTOCK':
-        return 'success';
-      case 'LOWSTOCK':
-        return 'warning';
-      default:
-        return 'danger';
+    const skillSources: SkillSource[] = user.skillSources;
+
+    for (const source of skillSources) {
+      columns.push({ field: source.name, header: source.name });
     }
-  }
 
-  getProducts(): Product[]{
-    let first : Product = { category: "Tables", code: "TAB", inventoryStatus: "INSTOCK", name: "Wooden table", quantity: 2, rating: 3 }
-    let second : Product = { category: "Jewelry", code: "TAB", inventoryStatus: "OUT", name: "Diamond necklace", quantity: 1, rating: 5 }
-    let third : Product = { category: "PC", code: "TAB", inventoryStatus: "LOWSTOCK", name: "Macbook", quantity: 3, rating: 5 }
+    const skills: Skill[] = [];
+    const totalSkillSources: Map<string, number> = new Map();
 
-    return [ first, second, third ]
+    for (const [skill, level] of user.totalSkills) {
+      const skillSourcesAmount: Map<string, number> = new Map();
+      for (const source of skillSources) {
+        const sourceLevel = source.skills.get(skill) || 0;
+        skillSourcesAmount.set(source.name, sourceLevel);
+        if (totalSkillSources.has(source.name)) {
+          totalSkillSources.set(source.name, totalSkillSources.get(source.name)! + sourceLevel);
+        } else {
+          totalSkillSources.set(source.name, sourceLevel);
+        }
+      }
+
+      const rankInfo = getRankInfoFromXP(level)
+      skills.push({
+        name: skill,
+        skillSourcesAmount: skillSourcesAmount,
+        rankInfo: rankInfo
+      });
+    }
+
+    return [columns, skills];
   }
 }

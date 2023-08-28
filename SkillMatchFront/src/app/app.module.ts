@@ -12,6 +12,7 @@ import {TagModule} from "primeng/tag";
 import {RatingModule} from "primeng/rating";
 import {FormsModule} from "@angular/forms";
 import {CardModule} from "primeng/card";
+import {ProgressBarModule} from "primeng/progressbar";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import {CardModule} from "primeng/card";
     AppRoutingModule,
 
     // Primeng
-    TableModule, TagModule, RatingModule, FormsModule, CardModule
+    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

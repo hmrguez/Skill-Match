@@ -1,23 +1,19 @@
 <p-card>
-  <p-table [value]="products" responsiveLayout="stack" [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
+  <p-table [value]="skillArray" [columns]="headerArray" responsiveLayout="stack" [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Category</th>
-        <th>Quantity</th>
-        <th>Status</th>
-        <th>Reviews</th>
+        <th *ngFor="let col of columns">{{ col.header }}</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-product let-columns="columns">
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr>
-        <td><span class="p-column-title">Name</span>{{product.name}}</td>
-        <td><span class="p-column-title">Price</span>{{product.price | currency:'USD'}}</td>
-        <td><span class="p-column-title">Category</span>{{product.category}}</td>
-        <td><span class="p-column-title">Quantity</span>{{product.quantity}}</td>
-        <td><p-tag [value]="product.inventoryStatus" [severity]="getSeverity(product.inventoryStatus)"></p-tag></td>
-        <td><span class="p-column-title">Reviews</span><p-rating [(ngModel)]="product.rating" [readonly]="true" [cancel]="false"></p-rating></td>
+        <td>{{ rowData.name }}</td>
+        <td>{{ rowData.rankInfo.currentRank }}</td>
+        <td><p-progressBar [showValue]="false" [value]="rowData.rankInfo.xpExcess * 100  /  rowData.rankInfo.xpNeededForNextRank"></p-progressBar></td>
+
+        <td *ngFor="let col of columns.slice(3)">
+          {{ rowData.skillSourcesAmount.get(col.field) || 0 }}
+        </td>
       </tr>
     </ng-template>
   </p-table>
