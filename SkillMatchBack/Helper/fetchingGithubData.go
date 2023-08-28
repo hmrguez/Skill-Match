@@ -4,6 +4,7 @@ import (
 	"SkillMatchBack/Data"
 	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
 )
 
@@ -18,7 +19,12 @@ func fetchUserRepositories(username string, token string) ([]string, error) {
 
 	resp, err := client.Do(req)
 
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(resp.Body)
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("GitHub API request failed with status: %s", resp.Status)
@@ -50,7 +56,12 @@ func fetchLanguageStats(username, repoName string, token string) (Data.LanguageS
 	req.Header.Add("Authorization", "Bearer "+token)
 
 	resp, err := client.Do(req)
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+			panic(err)
+		}
+	}(resp.Body)
 
 	if resp.StatusCode != http.StatusOK {
 		return nil, fmt.Errorf("GitHub API request failed with status: %s", resp.Status)
@@ -86,16 +97,12 @@ func getTotalLanguageStats(username string, token string) (Data.LanguageStats, e
 	return totalStats, nil
 }
 
-func GetUserWithGithubStats(username, token string) (*Data.User, error) {
-	totalStats, err := getTotalLanguageStats(username, token)
+func AttachGithubStatsToUser(user *Data.User, token string) {
+	totalStats, err := getTotalLanguageStats(user.Name, token)
+
 	if err != nil {
-		return nil, err
+		panic(err)
 	}
 
-	user := &Data.User{
-		Username: username,
-		Stats:    totalStats,
-	}
-
-	return user, nil
+	user.SkillSources = append(user.SkillSources, Data.SkillSource{Name: "Github", Skills: totalStats})
 }

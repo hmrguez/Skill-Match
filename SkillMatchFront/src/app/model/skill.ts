@@ -1,4 +1,4 @@
-import {Rank, RankInfo} from "../data/rank";
+import {RankInfo} from "../data/rank";
 
 export interface Skill{
   name: string
