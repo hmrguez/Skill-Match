@@ -13,6 +13,7 @@ import {RatingModule} from "primeng/rating";
 import {FormsModule} from "@angular/forms";
 import {CardModule} from "primeng/card";
 import {ProgressBarModule} from "primeng/progressbar";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -21,12 +22,11 @@ import {ProgressBarModule} from "primeng/progressbar";
     SidenavComponent,
     DashboardComponent,
     SkillsComponent,
-
-
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
 
     // Primeng
     TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule

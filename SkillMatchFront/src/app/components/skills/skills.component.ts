@@ -22,8 +22,8 @@ export class SkillsComponent implements OnInit{
 
   constructor(private userService: UserService) { }
 
-  ngOnInit(): void {
-    this.user = this.userService.getUsers()[0]
+  async ngOnInit(): Promise<void> {
+    this.user = (await this.userService.getAllUsers())[0]
     const temp = this.getUserTableData(this.user);
     this.headerArray = temp[0];
     this.skillArray = temp[1]
@@ -36,24 +36,32 @@ export class SkillsComponent implements OnInit{
       { field: 'progress', header: 'XP To Next Rank'},
     ];
 
-    const skillSources: SkillSource[] = user.skillSources;
+    const skillSources: SkillSource[] = user.SkillSources;
 
-    for (const source of skillSources) {
-      columns.push({ field: source.name, header: source.name });
+    user.TotalSkills = this.objectToMap(user.TotalSkills)
+    for (let i = 0; i < user.SkillSources.length; i++) {
+      user.SkillSources[i] = {
+        Name: user.SkillSources[i].Name,
+        Skills: this.objectToMap(user.SkillSources[i].Skills)
+      }
+    }
+
+    for (const skillSource of skillSources) {
+      columns.push({ field: skillSource.Name, header: skillSource.Name });
     }
 
     const skills: Skill[] = [];
     const totalSkillSources: Map<string, number> = new Map();
 
-    for (const [skill, level] of user.totalSkills) {
+    for (const [skill, level] of user.TotalSkills) {
       const skillSourcesAmount: Map<string, number> = new Map();
       for (const source of skillSources) {
-        const sourceLevel = source.skills.get(skill) || 0;
-        skillSourcesAmount.set(source.name, sourceLevel);
-        if (totalSkillSources.has(source.name)) {
-          totalSkillSources.set(source.name, totalSkillSources.get(source.name)! + sourceLevel);
+        const sourceLevel = source.Skills.get(skill) ?? 0;
+        skillSourcesAmount.set(source.Name, sourceLevel);
+        if (totalSkillSources.has(source.Name)) {
+          totalSkillSources.set(source.Name, totalSkillSources.get(source.Name)! + sourceLevel);
         } else {
-          totalSkillSources.set(source.name, sourceLevel);
+          totalSkillSources.set(source.Name, sourceLevel);
         }
       }
 
@@ -66,5 +74,17 @@ export class SkillsComponent implements OnInit{
     }
 
     return [columns, skills];
+  }
+
+  objectToMap(obj: Record<string, any>): Map<string, number> {
+    const map = new Map<string, number>();
+
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        map.set(key, obj[key]);
+      }
+    }
+
+    return map;
   }
 }

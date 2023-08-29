@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-var userService *Services.UserService
+var UserService *Services.UserService
 
 func SetupUserService() {
 	connectionString := os.Getenv("DB_CONNECTION_STRING")
@@ -25,7 +25,7 @@ func SetupUserService() {
 	}
 
 	database := client.Database(databaseName)
-	userService = Services.NewUserService(database)
+	UserService = Services.NewUserService(database)
 }
 
 func CreateUser(c *gin.Context) {
@@ -35,7 +35,7 @@ func CreateUser(c *gin.Context) {
 		return
 	}
 
-	err := userService.CreateUser(context.Background(), user)
+	err := UserService.CreateUser(context.Background(), user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create user"})
 		return
@@ -46,8 +46,17 @@ func CreateUser(c *gin.Context) {
 
 func GetUserByName(c *gin.Context) {
 	name := c.Param("name")
+	user, err := UserService.GetUserByName(context.Background(), name)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
+		return
+	}
 
-	user, err := userService.GetUserByName(context.Background(), name)
+	c.JSON(http.StatusOK, user)
+}
+
+func GetUsers(c *gin.Context) {
+	user, err := UserService.GetAllUsers(context.Background())
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "User not found"})
 		return
@@ -65,7 +74,7 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
-	err := userService.UpdateUser(context.Background(), name, user)
+	err := UserService.UpdateUser(context.Background(), name, user)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update user"})
 		return
@@ -77,7 +86,7 @@ func UpdateUser(c *gin.Context) {
 func DeleteUser(c *gin.Context) {
 	name := c.Param("name")
 
-	err := userService.DeleteUser(context.Background(), name)
+	err := UserService.DeleteUser(context.Background(), name)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete user"})
 		return

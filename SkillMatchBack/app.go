@@ -1,46 +1,28 @@
 package main
 
 import (
-	"SkillMatchBack/Data"
-	"SkillMatchBack/Helper"
-	"github.com/joho/godotenv"
-	"os"
+	"SkillMatchBack/Controllers"
+	"github.com/gin-gonic/gin"
+	godotenv "github.com/joho/godotenv"
+	cors "github.com/rs/cors/wrapper/gin"
 )
 
 func main() {
+	_ = godotenv.Load()
+	r := gin.Default()
 
-	godotenv.Load()
-	token := os.Getenv("GITHUB_PAT")
-	user := Data.User{Name: "hmrguez", SkillSources: make([]Data.SkillSource, 0)}
-	Helper.AttachGithubStatsToUser(&user, token)
+	r.Use(cors.Default())
+	Controllers.SetupUserService()
 
-	println(user.Name)
+	r.GET("/users", Controllers.GetUsers)
+	r.POST("/users", Controllers.CreateUser)
+	r.GET("/users/:name", Controllers.GetUserByName)
+	r.PUT("/users/:name", Controllers.UpdateUser)
+	r.DELETE("/users/:name", Controllers.DeleteUser)
 
-	for _, skillSource := range user.SkillSources {
-		println(skillSource.Name)
-		for skill, level := range skillSource.Skills {
-			println(skill, level)
-		}
+	err := r.Run(":7000")
+	if err != nil {
+		panic("Server was not able to start")
+		return
 	}
-
-	//router := gin.Default()
-	//
-	//if err != nil {
-	//	panic(fmt.Errorf("An error occurred when loading secret data: %v", err))
-	//}
-	//
-	//router.GET("/github-score/:username", GetGithubData)
-	//router.Run("localhost:7000")
 }
-
-//func GetGithubData(c *gin.Context) {
-//	username := c.Param("username")
-//	token := os.Getenv("GITHUB_PAT")
-//
-//	user, err := Helper.GetUserWithGithubStats(username, token)
-//	if err != nil {
-//		panic(fmt.Errorf("An error occurred fetching user data: %v", err))
-//	}
-//
-//	c.JSON(200, user)
-//}

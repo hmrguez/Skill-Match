@@ -1,58 +1,35 @@
 import { Injectable } from '@angular/core';
 import {calculateTotalSkills, User} from "../model/user";
 import {SkillSource} from "../model/skillSource";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor() { }
+  private baseUrl = 'http://localhost:7000/users'; // Replace with your Go server URL
 
-  getUsers(){
-    const skillSource1: SkillSource = {
-      name: "Source 1",
-      skills: new Map([
-        ["SkillA", 5],
-        ["SkillB", 8],
-        ["SkillC", 3]
-      ])
-    };
+  constructor(private http: HttpClient) { }
 
-    const skillSource2: SkillSource = {
-      name: "Source 2",
-      skills: new Map([
-        ["SkillB", 4],
-        ["SkillD", 6],
-        ["SkillE", 7]
-      ])
-    };
+  async createUser(user: any): Promise<User> {
+    return await this.http.post<User>(`${this.baseUrl}`, user).toPromise() ?? {} as User;
+  }
 
-    const skillSource3: SkillSource = {
-      name: "Source 3",
-      skills: new Map([
-        ["SkillA", 2],
-        ["SkillC", 9],
-        ["SkillF", 4]
-      ])
-    };
+  async getUserByName(name: string): Promise<any> {
+    return await this.http.get(`${this.baseUrl}/${name}`).toPromise();
+  }
 
-    const skillSource4: SkillSource = {
-      name: "Source 4",
-      skills: new Map([
-        ["SkillD", 109],
-        ["SkillE", 568],
-        ["SkillG", 1022]
-      ])
-    };
+  async updateUser(name: string, user: User): Promise<User> {
+    return await this.http.put<User>(`${this.baseUrl}/${name}`, user).toPromise() ?? {} as User;
+  }
 
-    // Creating a User instance with the SkillSources
-    const user: User = {
-      name: "John Doe",
-      skillSources: [skillSource1, skillSource2, skillSource3, skillSource4],
-      totalSkills: calculateTotalSkills([skillSource1, skillSource2, skillSource3, skillSource4])
-    };
+  async deleteUser(name: string): Promise<User | undefined> {
+    return await this.http.delete<User>(`${this.baseUrl}/${name}`).toPromise();
+  }
 
-    return [user];
+  async getAllUsers(): Promise<User[]> {
+    return (await this.http.get<User[]>(`${this.baseUrl}`).toPromise()) ?? [];
   }
 }

@@ -1,8 +1,11 @@
 <p-card>
+
+  <h1 class="mb-5">Skills</h1>
+
   <p-table [value]="skillArray" [columns]="headerArray" responsiveLayout="stack" [breakpoint]="'960px'" [tableStyle]="{'min-width': '50rem'}">
     <ng-template pTemplate="header" let-columns>
       <tr>
-        <th *ngFor="let col of columns">{{ col.header }}</th>
+        <th [id]="col" *ngFor="let col of columns">{{ col.header }}</th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns">

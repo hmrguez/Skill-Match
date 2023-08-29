@@ -1,4 +1,4 @@
 export interface SkillSource {
-  name: string;
-  skills: Map<string, number>;
+  Name: string;
+  Skills: Map<string, number>;
 }
