@@ -26,7 +26,7 @@ func RegisterHandler(c *gin.Context) {
 	}
 
 	var user Models.User
-	user.Name = userSign.Name
+	user.Name = userSign.Username
 	user.HashedPassword = hashedPassword
 	user.SkillSources = make([]Models.SkillSource, 0)
 
@@ -46,7 +46,9 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	user, err := UserService.GetUserByName(context.Background(), userSign.Name)
+	println("userSign.Name: " + userSign.Username)
+
+	user, err := UserService.GetUserByName(context.Background(), userSign.Username)
 
 	err = Helper.ComparePasswords(user.HashedPassword, userSign.Password)
 	if err != nil {
@@ -54,15 +56,14 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	var tokenString string
 	var secretKey = os.Getenv("PASSWORD_KEY")
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"username":   user.Name,
-		"expiration": time.Now().Add(time.Hour * 24).Unix(),
+		"username": user.Name,
+		"exp":      time.Now().Add(time.Hour * 24).Unix(),
 	})
 
-	tokenString, err = token.SignedString([]byte(secretKey))
+	tokenString, err := token.SignedString([]byte(secretKey))
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return

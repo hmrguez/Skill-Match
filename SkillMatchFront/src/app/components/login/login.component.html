@@ -1,0 +1,33 @@
+<section class="vh-100">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+
+
+        <p-tabView [(activeIndex)]="openTab">
+          <p-tabPanel header="Sign in"></p-tabPanel>
+          <p-tabPanel header="Register"></p-tabPanel>
+        </p-tabView>
+
+        <div class="card shadow-2-strong" style="border-radius: 1rem;">
+          <div  class="card-body p-5 text-center">
+            <h3 class="mb-5"> {{ openTab == 1 ? "Register" : "Sign in" }}</h3>
+            <div class="form-outline mb-4">
+              <input [(ngModel)]="username" placeholder="Username" type="email" id="email" class="form-control form-control-lg" />
+            </div>
+            <div class="form-outline mb-4">
+              <input [(ngModel)]="password" placeholder="Password" type="password" id="password" class="form-control form-control-lg" />
+            </div>
+            <div *ngIf="openTab == 1" class="form-outline mb-4">
+              <input [(ngModel)]="confirmPassword" placeholder="Confirm Password" type="password" id="confirmPassword" class="form-control form-control-lg" />
+            </div>
+            <button class="btn btn-primary btn-lg btn-block" type="submit"
+                    (click)="openTab == 1 ? registerUser() : loginUser()">
+              {{ openTab == 1 ? "Register" : "Sign in" }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

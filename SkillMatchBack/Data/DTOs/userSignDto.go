@@ -1,6 +1,6 @@
 package DTOs
 
 type UserSignDto struct {
-	Name     string `json:"name"`
-	Password string `json:"password"`
+	Username string `json:"Username"`
+	Password string `json:"Password"`
 }

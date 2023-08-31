@@ -14,6 +14,21 @@ import {FormsModule} from "@angular/forms";
 import {CardModule} from "primeng/card";
 import {ProgressBarModule} from "primeng/progressbar";
 import {HttpClientModule} from "@angular/common/http";
+import { LoginComponent } from './components/login/login.component';
+import {TabViewModule} from "primeng/tabview";
+import {JWT_OPTIONS, JwtHelperService, JwtModule} from "@auth0/angular-jwt";
+import {AuthGuard} from "./guards/auth.guard";
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+
+function jwtOptionsFactory() {
+  return {
+    tokenGetter: () => {
+      return localStorage.getItem('token');
+    },
+  };
+}
 
 @NgModule({
   declarations: [
@@ -22,16 +37,27 @@ import {HttpClientModule} from "@angular/common/http";
     SidenavComponent,
     DashboardComponent,
     SkillsComponent,
+    LoginComponent,
   ],
   imports: [
+    // Jwt
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptionsFactory,
+        deps: [],
+      },
+    }),
+
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
 
     // Primeng
-    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule
+    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule
   ],
-  providers: [],
+  providers: [JwtHelperService, MessageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

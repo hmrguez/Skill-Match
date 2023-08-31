@@ -4,7 +4,7 @@ import (
 	"SkillMatchBack/Controllers"
 	"SkillMatchBack/Middleware"
 	"github.com/gin-gonic/gin"
-	godotenv "github.com/joho/godotenv"
+	"github.com/joho/godotenv"
 	cors "github.com/rs/cors/wrapper/gin"
 	"net/http"
 )

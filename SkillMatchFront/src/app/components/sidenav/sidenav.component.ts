@@ -1,5 +1,5 @@
 import {Component, EventEmitter, HostListener, OnInit, Output} from '@angular/core';
-import {navbarData} from "./nav-data";
+import {AuthService} from "../../services/auth.service";
 
 
 interface SideNavToggle{
@@ -16,6 +16,27 @@ export class SidenavComponent implements OnInit{
 
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter<SideNavToggle>()
 
+  navbarData = [
+    {
+      routeLink: "/dashboard",
+      icon: "pi pi-folder",
+      label: "Dashboard",
+    },
+    {
+      routeLink: "/skills",
+      icon: "pi pi-star",
+      label: "Skills",
+    },
+    {
+      routeLink: "/login",
+      icon: "pi pi-user",
+      label: "Login",
+    },
+  ];
+
+
+  constructor(public authService: AuthService){}
+
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.screenWidth = window.innerWidth;
@@ -26,7 +47,7 @@ export class SidenavComponent implements OnInit{
   }
 
   collapsed = false;
-  navData = navbarData
+  navData = this.navbarData
   screenWidth: number = 0;
 
   toggleCollapse() {
