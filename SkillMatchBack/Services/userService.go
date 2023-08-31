@@ -1,7 +1,7 @@
 package Services
 
 import (
-	"SkillMatchBack/Data"
+	"SkillMatchBack/Data/Models"
 	"SkillMatchBack/Helper"
 	"context"
 	"fmt"
@@ -20,7 +20,7 @@ func NewUserService(database *mongo.Database) *UserService {
 	return &UserService{collection: collection}
 }
 
-func (s *UserService) CreateUser(ctx context.Context, user Data.User) error {
+func (s *UserService) CreateUser(ctx context.Context, user Models.User) error {
 
 	user.TotalSkills = Helper.CalculateTotalSkills(user.SkillSources)
 	_, err := s.collection.InsertOne(ctx, user)
@@ -30,8 +30,8 @@ func (s *UserService) CreateUser(ctx context.Context, user Data.User) error {
 	return err
 }
 
-func (s *UserService) GetUserByName(ctx context.Context, name string) (Data.User, error) {
-	var user Data.User
+func (s *UserService) GetUserByName(ctx context.Context, name string) (Models.User, error) {
+	var user Models.User
 	err := s.collection.FindOne(ctx, bson.M{"name": name}).Decode(&user)
 	if err != nil {
 		log.Println("Failed to get user:", err)
@@ -39,8 +39,8 @@ func (s *UserService) GetUserByName(ctx context.Context, name string) (Data.User
 	return user, err
 }
 
-func (s *UserService) GetAllUsers(ctx context.Context) ([]Data.User, error) {
-	var users []Data.User
+func (s *UserService) GetAllUsers(ctx context.Context) ([]Models.User, error) {
+	var users []Models.User
 	cursor, err := s.collection.Find(ctx, bson.M{})
 	fmt.Printf("After find")
 	if err != nil {
@@ -54,7 +54,7 @@ func (s *UserService) GetAllUsers(ctx context.Context) ([]Data.User, error) {
 	}(cursor, ctx)
 
 	for cursor.Next(ctx) {
-		var user Data.User
+		var user Models.User
 		if err := cursor.Decode(&user); err != nil {
 			return nil, err
 		}
@@ -67,7 +67,7 @@ func (s *UserService) GetAllUsers(ctx context.Context) ([]Data.User, error) {
 	return users, nil
 }
 
-func (s *UserService) UpdateUser(ctx context.Context, name string, user Data.User) error {
+func (s *UserService) UpdateUser(ctx context.Context, name string, user Models.User) error {
 	user.TotalSkills = Helper.CalculateTotalSkills(user.SkillSources)
 	_, err := s.collection.UpdateOne(ctx, bson.M{"name": name}, bson.M{"$set": user})
 	if err != nil {

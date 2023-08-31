@@ -1,35 +1,14 @@
 package Controllers
 
 import (
-	"SkillMatchBack/Data"
-	"SkillMatchBack/Services"
+	"SkillMatchBack/Data/Models"
 	"context"
 	"github.com/gin-gonic/gin"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 	"net/http"
-	"os"
 )
 
-var UserService *Services.UserService
-
-func SetupUserService() {
-	connectionString := os.Getenv("DB_CONNECTION_STRING")
-	databaseName := os.Getenv("DB_NAME")
-
-	clientOptions := options.Client().ApplyURI(connectionString)
-	client, err := mongo.Connect(context.Background(), clientOptions)
-
-	if err != nil {
-		panic(err)
-	}
-
-	database := client.Database(databaseName)
-	UserService = Services.NewUserService(database)
-}
-
 func CreateUser(c *gin.Context) {
-	var user Data.User
+	var user Models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
@@ -68,7 +47,7 @@ func GetUsers(c *gin.Context) {
 func UpdateUser(c *gin.Context) {
 	name := c.Param("name")
 
-	var user Data.User
+	var user Models.User
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

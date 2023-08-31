@@ -1,7 +1,7 @@
 package Helper
 
 import (
-	"SkillMatchBack/Data"
+	"SkillMatchBack/Data/Models"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -46,7 +46,7 @@ func fetchUserRepositories(username string, token string) ([]string, error) {
 	return repoNames, nil
 }
 
-func fetchLanguageStats(username, repoName string, token string) (Data.LanguageStats, error) {
+func fetchLanguageStats(username, repoName string, token string) (Models.LanguageStats, error) {
 	client := &http.Client{}
 	url := fmt.Sprintf("https://api.github.com/repos/%s/%s/languages", username, repoName)
 	req, err := http.NewRequest("GET", url, nil)
@@ -67,7 +67,7 @@ func fetchLanguageStats(username, repoName string, token string) (Data.LanguageS
 		return nil, fmt.Errorf("GitHub API request failed with status: %s", resp.Status)
 	}
 
-	var stats Data.LanguageStats
+	var stats Models.LanguageStats
 	err = json.NewDecoder(resp.Body).Decode(&stats)
 	if err != nil {
 		return nil, err
@@ -76,13 +76,13 @@ func fetchLanguageStats(username, repoName string, token string) (Data.LanguageS
 	return stats, nil
 }
 
-func getTotalLanguageStats(username string, token string) (Data.LanguageStats, error) {
+func getTotalLanguageStats(username string, token string) (Models.LanguageStats, error) {
 	repoNames, err := fetchUserRepositories(username, token)
 	if err != nil {
 		return nil, err
 	}
 
-	totalStats := make(Data.LanguageStats)
+	totalStats := make(Models.LanguageStats)
 	for _, repoName := range repoNames {
 		stats, err := fetchLanguageStats(username, repoName, token)
 		if err != nil {
@@ -97,12 +97,12 @@ func getTotalLanguageStats(username string, token string) (Data.LanguageStats, e
 	return totalStats, nil
 }
 
-func AttachGithubStatsToUser(user *Data.User, token string) {
+func AttachGithubStatsToUser(user *Models.User, token string) {
 	totalStats, err := getTotalLanguageStats(user.Name, token)
 
 	if err != nil {
 		panic(err)
 	}
 
-	user.SkillSources = append(user.SkillSources, Data.SkillSource{Name: "Github", Skills: totalStats})
+	user.SkillSources = append(user.SkillSources, Models.SkillSource{Name: "Github", Skills: totalStats})
 }

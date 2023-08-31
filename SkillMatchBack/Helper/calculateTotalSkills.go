@@ -1,8 +1,10 @@
 package Helper
 
-import "SkillMatchBack/Data"
+import (
+	"SkillMatchBack/Data/Models"
+)
 
-func CalculateTotalSkills(skillSources []Data.SkillSource) map[string]int {
+func CalculateTotalSkills(skillSources []Models.SkillSource) map[string]int {
 	totalSkills := make(map[string]int)
 
 	for _, source := range skillSources {
