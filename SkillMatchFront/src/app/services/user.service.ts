@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import {calculateTotalSkills, User} from "../model/user";
-import {SkillSource} from "../model/skillSource";
+import {User} from "../model/user";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  private baseUrl = 'http://localhost:7000/users'; // Replace with your Go server URL
+  private baseUrl = 'http://localhost:7000/users'; // Replace with y6our Go server URL
 
   constructor(private http: HttpClient) { }
 

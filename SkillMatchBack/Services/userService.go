@@ -53,8 +53,6 @@ func (s *UserService) GetAllUsers(ctx context.Context) ([]Data.User, error) {
 		}
 	}(cursor, ctx)
 
-	fmt.Printf("Before cursor")
-
 	for cursor.Next(ctx) {
 		var user Data.User
 		if err := cursor.Decode(&user); err != nil {
@@ -62,8 +60,6 @@ func (s *UserService) GetAllUsers(ctx context.Context) ([]Data.User, error) {
 		}
 		users = append(users, user)
 	}
-
-	fmt.Printf("After for cursor")
 
 	if err := cursor.Err(); err != nil {
 		return nil, err
