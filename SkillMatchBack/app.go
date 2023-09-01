@@ -14,7 +14,7 @@ func main() {
 	r := gin.Default()
 
 	r.Use(cors.AllowAll())
-	Controllers.SetupUserService()
+	Controllers.SetupServices()
 
 	// Account
 	r.POST("/register", Controllers.RegisterHandler)
@@ -35,6 +35,14 @@ func main() {
 	r.GET("/users/:name", Controllers.GetUserByName)
 	r.PUT("/users/:name", Controllers.UpdateUser)
 	r.DELETE("/users/:name", Controllers.DeleteUser)
+
+	// Jobs
+	r.GET("/jobs", Controllers.GetAllJobs)
+	r.GET("/jobs/search", Controllers.SearchJobs)
+	r.POST("/jobs", Controllers.CreateJob)
+	r.GET("/jobs/:id", Controllers.GetJobByID)
+	r.PUT("/jobs/:id", Controllers.UpdateJob)
+	r.DELETE("/jobs/:id", Controllers.DeleteJob)
 
 	err := r.Run(":7000")
 	if err != nil {

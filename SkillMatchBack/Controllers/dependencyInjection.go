@@ -9,8 +9,9 @@ import (
 )
 
 var UserService *Services.UserService
+var JobService *Services.JobService
 
-func SetupUserService() {
+func SetupServices() {
 	connectionString := os.Getenv("DB_CONNECTION_STRING")
 	databaseName := os.Getenv("DB_NAME")
 
@@ -23,4 +24,5 @@ func SetupUserService() {
 
 	database := client.Database(databaseName)
 	UserService = Services.NewUserService(database)
+	JobService = Services.NewJobService(database)
 }
