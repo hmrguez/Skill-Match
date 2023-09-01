@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
 import {Repo, User} from "../../model/user";
 import {UserService} from "../../services/user.service";
-import {Message, MessageService} from "primeng/api";
+import { MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-profile',

@@ -33,6 +33,11 @@ export class SidenavComponent implements OnInit{
       label: "Skills",
     },
     {
+      routeLink: "/jobs",
+      icon: "pi pi-briefcase",
+      label: "Jobs",
+    },
+    {
       routeLink: "/login",
       icon: "pi pi-user",
       label: "Login",

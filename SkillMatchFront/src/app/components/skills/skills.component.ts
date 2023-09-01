@@ -26,7 +26,6 @@ export class SkillsComponent implements OnInit{
   async ngOnInit(): Promise<void> {
     const userName = this.authService.getUsername()
     this.user = await this.userService.getUserByName(userName)
-    console.log(this.user)
     const temp = this.getUserTableData(this.user);
     this.headerArray = temp[0];
     this.skillArray = temp[1]

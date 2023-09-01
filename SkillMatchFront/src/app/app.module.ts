@@ -17,15 +17,14 @@ import {HttpClientModule} from "@angular/common/http";
 import { LoginComponent } from './components/login/login.component';
 import {TabViewModule} from "primeng/tabview";
 import {JWT_OPTIONS, JwtHelperService, JwtModule} from "@auth0/angular-jwt";
-import {AuthGuard} from "./guards/auth.guard";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { ProfileComponent } from './components/profile/profile.component';
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
-import { GithubReposComponent } from './components/github-repos/github-repos.component';
 import {TreeTableModule} from "primeng/treetable";
+import { JobsComponent } from './components/jobs/jobs.component';
 
 function jwtOptionsFactory() {
   return {
@@ -44,7 +43,7 @@ function jwtOptionsFactory() {
     SkillsComponent,
     LoginComponent,
     ProfileComponent,
-    GithubReposComponent,
+    JobsComponent,
   ],
   imports: [
     // Jwt
