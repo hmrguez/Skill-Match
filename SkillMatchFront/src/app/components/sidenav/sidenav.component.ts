@@ -23,6 +23,11 @@ export class SidenavComponent implements OnInit{
       label: "Dashboard",
     },
     {
+      routeLink: "/profile",
+      icon: "pi pi-prime",
+      label: "Profile",
+    },
+    {
       routeLink: "/skills",
       icon: "pi pi-star",
       label: "Skills",

@@ -21,6 +21,9 @@ import {AuthGuard} from "./guards/auth.guard";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
+import { ProfileComponent } from './components/profile/profile.component';
+import {ButtonModule} from "primeng/button";
+import {InputTextModule} from "primeng/inputtext";
 
 function jwtOptionsFactory() {
   return {
@@ -38,6 +41,7 @@ function jwtOptionsFactory() {
     DashboardComponent,
     SkillsComponent,
     LoginComponent,
+    ProfileComponent,
   ],
   imports: [
     // Jwt
@@ -55,7 +59,7 @@ function jwtOptionsFactory() {
     HttpClientModule,
 
     // Primeng
-    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule
+    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule
   ],
   providers: [JwtHelperService, MessageService],
   bootstrap: [AppComponent]

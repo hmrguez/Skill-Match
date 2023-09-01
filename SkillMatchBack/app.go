@@ -13,7 +13,7 @@ func main() {
 	_ = godotenv.Load()
 	r := gin.Default()
 
-	r.Use(cors.Default())
+	r.Use(cors.AllowAll())
 	Controllers.SetupUserService()
 
 	// Account

@@ -23,4 +23,8 @@ export class JwtService {
   public isTokenExpired(token: string): boolean {
     return this.jwtHelper.isTokenExpired(token);
   }
+
+  decodeToken(s: string) {
+    return this.jwtHelper.decodeToken(s)
+  }
 }

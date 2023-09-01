@@ -31,4 +31,9 @@ export class AuthService {
     this.jwtService.removeToken();
     this.router.navigate(['/login'])
   }
+
+  getUsername() {
+    const token = this.jwtService.getToken();
+    return this.jwtService.decodeToken(token || '')?.username
+  }
 }

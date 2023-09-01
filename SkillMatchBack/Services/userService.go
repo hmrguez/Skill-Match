@@ -6,6 +6,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -21,6 +22,11 @@ func NewUserService(database *mongo.Database) *UserService {
 }
 
 func (s *UserService) CreateUser(ctx context.Context, user Models.User) error {
+
+	if user.GithubProfile != "" {
+		token := os.Getenv("GITHUB_PAT")
+		Helper.AttachGithubStatsToUser(&user, token)
+	}
 
 	user.TotalSkills = Helper.CalculateTotalSkills(user.SkillSources)
 	_, err := s.collection.InsertOne(ctx, user)
@@ -68,6 +74,11 @@ func (s *UserService) GetAllUsers(ctx context.Context) ([]Models.User, error) {
 }
 
 func (s *UserService) UpdateUser(ctx context.Context, name string, user Models.User) error {
+	if user.GithubProfile != "" {
+		token := os.Getenv("GITHUB_PAT")
+		Helper.AttachGithubStatsToUser(&user, token)
+	}
+
 	user.TotalSkills = Helper.CalculateTotalSkills(user.SkillSources)
 	_, err := s.collection.UpdateOne(ctx, bson.M{"name": name}, bson.M{"$set": user})
 	if err != nil {

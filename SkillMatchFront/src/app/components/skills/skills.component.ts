@@ -4,6 +4,7 @@ import {User} from "../../model/user";
 import {SkillSource} from "../../model/skillSource";
 import {UserService} from "../../services/user.service";
 import {getRankInfoFromXP} from "../../data/rank";
+import {AuthService} from "../../services/auth.service";
 
 interface Column {
   field: string;
@@ -20,10 +21,12 @@ export class SkillsComponent implements OnInit{
   headerArray: Column[] = [];
   skillArray: Skill[] = [];
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private authService: AuthService) { }
 
   async ngOnInit(): Promise<void> {
-    this.user = (await this.userService.getAllUsers())[0]
+    const userName = this.authService.getUsername()
+    this.user = await this.userService.getUserByName(userName)
+    console.log(this.user)
     const temp = this.getUserTableData(this.user);
     this.headerArray = temp[0];
     this.skillArray = temp[1]

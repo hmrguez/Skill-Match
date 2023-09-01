@@ -98,7 +98,7 @@ func getTotalLanguageStats(username string, token string) (Models.LanguageStats,
 }
 
 func AttachGithubStatsToUser(user *Models.User, token string) {
-	totalStats, err := getTotalLanguageStats(user.Name, token)
+	totalStats, err := getTotalLanguageStats(user.GithubProfile, token)
 
 	if err != nil {
 		panic(err)

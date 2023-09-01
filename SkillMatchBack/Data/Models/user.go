@@ -12,6 +12,7 @@ type SkillSource struct {
 type User struct {
 	ID             primitive.ObjectID `bson:"_id,omitempty"`
 	Name           string             `bson:"name"`
+	GithubProfile  string             `bson:"githubProfile"`
 	HashedPassword string             `bson:"hashedPassword"`
 	SkillSources   []SkillSource      `bson:"skillSources"`
 	TotalSkills    map[string]int     `bson:"totalSkills"`

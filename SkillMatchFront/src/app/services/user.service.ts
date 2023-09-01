@@ -20,6 +20,7 @@ export class UserService {
   }
 
   async updateUser(name: string, user: User): Promise<User> {
+    console.log(user)
     return await this.http.put<User>(`${this.baseUrl}/${name}`, user).toPromise() ?? {} as User;
   }
 

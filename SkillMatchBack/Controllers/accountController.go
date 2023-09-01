@@ -46,8 +46,6 @@ func LoginHandler(c *gin.Context) {
 		return
 	}
 
-	println("userSign.Name: " + userSign.Username)
-
 	user, err := UserService.GetUserByName(context.Background(), userSign.Username)
 
 	err = Helper.ComparePasswords(user.HashedPassword, userSign.Password)

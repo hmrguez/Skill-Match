@@ -2,6 +2,7 @@ import {SkillSource} from "./skillSource";
 
 export interface User {
   Name: string;
+  GithubProfile: string
   SkillSources: SkillSource[];
   TotalSkills: Map<string, number>;
 }
