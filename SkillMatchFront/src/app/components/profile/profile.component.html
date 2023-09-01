@@ -21,3 +21,28 @@
     </div>
   </ng-template>
 </p-card>
+
+<p-card>
+  <ng-template pTemplate="header">
+    <h2 class="p-5">User Projects</h2>
+  </ng-template>
+  <ng-template pTemplate="body">
+    <p-table [columns]="cols" [value]="data" responsiveLayout="scroll">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+
+  </ng-template>
+</p-card>

@@ -1,8 +1,16 @@
 import {SkillSource} from "./skillSource";
 
+export interface Repo {
+  Name: string;
+  Description: string
+  Url: string
+  LanguageStats: Map<string, number>;
+}
+
 export interface User {
   Name: string;
   GithubProfile: string
+  GithubRepos: Repo[]
   SkillSources: SkillSource[];
   TotalSkills: Map<string, number>;
 }

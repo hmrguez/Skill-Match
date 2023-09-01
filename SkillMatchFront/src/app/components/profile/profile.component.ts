@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../../services/auth.service";
-import {User} from "../../model/user";
+import {Repo, User} from "../../model/user";
 import {UserService} from "../../services/user.service";
 import {Message, MessageService} from "primeng/api";
 
@@ -16,12 +16,24 @@ export class ProfileComponent implements OnInit{
 
   editingGitHub: boolean = false
 
+  cols!: ({ field: string; header: string })[];
+  data!: Repo[];
+
   constructor(private authService: AuthService, private userService: UserService, private messageService: MessageService) { }
 
   async ngOnInit(): Promise<void> {
     this.username = this.authService.getUsername()
     this.user = await this.userService.getUserByName(this.username)
     this.githubProfile = this.user.GithubProfile
+
+    this.cols = [
+      { field: 'Name', header: 'Name' },
+      { field: 'Description', header: 'Description' },
+    ];
+
+    this.data = this.user.GithubRepos
+    console.log(this.data)
+
   }
 
   startEditingGitHub() {

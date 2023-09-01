@@ -76,33 +76,106 @@ func fetchLanguageStats(username, repoName string, token string) (Models.Languag
 	return stats, nil
 }
 
-func getTotalLanguageStats(username string, token string) (Models.LanguageStats, error) {
+func fetchRepoDescription(username string, repoName string, token string) (string, error) {
+	client := &http.Client{}
+
+	// Create the URL for the GitHub API endpoint
+	url := fmt.Sprintf("https://api.github.com/repos/%s/%s", username, repoName)
+
+	// Create a new GET request
+	req, err := http.NewRequest("GET", url, nil)
+	if err != nil {
+		return "", err
+	}
+
+	// Set the Authorization header with the token
+	req.Header.Add("Authorization", "Bearer "+token)
+
+	// Send the GET request
+	resp, err := client.Do(req)
+	if err != nil {
+		return "", err
+	}
+	defer resp.Body.Close()
+
+	// Check if the response status code is OK (200)
+	if resp.StatusCode != http.StatusOK {
+		return "", fmt.Errorf("GitHub API request failed with status code: %d", resp.StatusCode)
+	}
+
+	// Parse the response body
+	var repoInfo map[string]interface{}
+	err = json.NewDecoder(resp.Body).Decode(&repoInfo)
+	if err != nil {
+		return "", err
+	}
+
+	fmt.Printf("Repo %s", repoName)
+
+	// Extract the repository description
+	description, ok := repoInfo["description"].(string)
+
+	if !ok {
+		return "", nil
+	}
+
+	return description, nil
+}
+
+func getTotalLanguageStats(username string, token string) (Models.LanguageStats, []Models.Repo, error) {
 	repoNames, err := fetchUserRepositories(username, token)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	totalStats := make(Models.LanguageStats)
+	repos := make([]Models.Repo, 0)
+
 	for _, repoName := range repoNames {
 		stats, err := fetchLanguageStats(username, repoName, token)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
+
+		// Fetch the repository description
+		description, err := fetchRepoDescription(username, repoName, token)
+		if err != nil {
+			return nil, nil, err
+		}
+
+		repos = append(repos, Models.Repo{Name: repoName, Description: description, Languages: stats})
 
 		for lang, bytes := range stats {
 			totalStats[lang] += bytes / 50
 		}
 	}
 
-	return totalStats, nil
+	return totalStats, repos, nil
 }
 
 func AttachGithubStatsToUser(user *Models.User, token string) {
-	totalStats, err := getTotalLanguageStats(user.GithubProfile, token)
+	totalStats, repos, err := getTotalLanguageStats(user.GithubProfile, token)
 
 	if err != nil {
 		panic(err)
 	}
 
-	user.SkillSources = append(user.SkillSources, Models.SkillSource{Name: "Github", Skills: totalStats})
+	var userHasGithub bool = false
+	for _, source := range user.SkillSources {
+		if source.Name == "Github" {
+			userHasGithub = true
+		}
+	}
+
+	if userHasGithub {
+		for i, source := range user.SkillSources {
+			if source.Name == "Github" {
+				user.SkillSources[i].Skills = totalStats
+			}
+		}
+	} else {
+		user.SkillSources = append(user.SkillSources, Models.SkillSource{Name: "Github", Skills: totalStats})
+	}
+
+	user.GithubRepos = repos
 }

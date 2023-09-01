@@ -28,13 +28,13 @@ export interface RankInfo {
 
 const rankXpMap: Map<Rank, number> = new Map([
   [Rank.Novice, 0],
-  [Rank.Beginner, 100],
-  [Rank.Intermediate, 300],
-  [Rank.Proficient, 600],
-  [Rank.Advanced, 1000],
-  [Rank.Expert, 1500],
-  [Rank.Master, 2100],
-  [Rank.Grandmaster, 2800],
+  [Rank.Beginner, 500],
+  [Rank.Intermediate, 1500],
+  [Rank.Proficient, 3000],
+  [Rank.Advanced, 5000],
+  [Rank.Expert, 8000],
+  [Rank.Master, 12000],
+  [Rank.Grandmaster, 20000],
 ]);
 
 export function getRankInfoFromXP(xp: number): RankInfo {

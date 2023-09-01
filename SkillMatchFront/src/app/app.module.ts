@@ -24,6 +24,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { ProfileComponent } from './components/profile/profile.component';
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
+import { GithubReposComponent } from './components/github-repos/github-repos.component';
+import {TreeTableModule} from "primeng/treetable";
 
 function jwtOptionsFactory() {
   return {
@@ -42,6 +44,7 @@ function jwtOptionsFactory() {
     SkillsComponent,
     LoginComponent,
     ProfileComponent,
+    GithubReposComponent,
   ],
   imports: [
     // Jwt
@@ -59,7 +62,7 @@ function jwtOptionsFactory() {
     HttpClientModule,
 
     // Primeng
-    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule
+    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule, TreeTableModule
   ],
   providers: [JwtHelperService, MessageService],
   bootstrap: [AppComponent]
