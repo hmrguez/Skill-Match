@@ -32,8 +32,6 @@ export class ProfileComponent implements OnInit{
     ];
 
     this.data = this.user.GithubRepos
-    console.log(this.data)
-
   }
 
   startEditingGitHub() {
