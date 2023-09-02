@@ -4,6 +4,8 @@ import {Job, Requirement} from "../../model/job";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {findXpForRanks, Rank, rankOrder, rankXpMap} from "../../data/rank";
 import {Table} from "primeng/table";
+import {ApplicationService} from "../../services/application.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-jobs',
@@ -28,22 +30,28 @@ export class JobsComponent implements OnInit {
   selectedSkill!: string;
 
 
-  constructor(private jobService: JobService, private messageService: MessageService, private confirmationService: ConfirmationService) {
-    this.cols = [
-      {field: 'Title', header: 'Title'},
-      {field: 'Description', header: 'Description'},
-      {field: 'Location', header: 'Location'},
-      {field: 'Salary', header: 'Salary'},
-      {field: 'Company', header: 'Company'},
-    ]
+  constructor(
+    private jobService: JobService,
+    private messageService: MessageService,
+    private confirmationService: ConfirmationService,
+    private applicationService: ApplicationService,
+    private authService: AuthService
+    ) {
+      this.cols = [
+        {field: 'Title', header: 'Title'},
+        {field: 'Description', header: 'Description'},
+        {field: 'Location', header: 'Location'},
+        {field: 'Salary', header: 'Salary'},
+        {field: 'Company', header: 'Company'},
+      ]
 
-    for (const [rank, lowerBound] of rankXpMap) {
-      this.rankOptions.push(rank)
-    }
+      for (const [rank, lowerBound] of rankXpMap) {
+        this.rankOptions.push(rank)
+      }
   }
 
   ngOnInit() {
-    this.jobService.getAllJobs().then(x => this.jobs = x)
+    this.setupData()
   }
 
   openNew() {
@@ -63,7 +71,7 @@ export class JobsComponent implements OnInit {
     this.submitted = true;
     this.jobService.createJob(this.model).then(x => {
       this.messageService.add({severity: "success", summary: "Success", detail: "Job posted"})
-      this.Table.reset()
+      this.setupData()
     })
 
     this.productDialog = false
@@ -103,12 +111,8 @@ export class JobsComponent implements OnInit {
   searchFilter() {
 
     const filter = this.createMongoDBFilter(this.model)
-    console.log(filter)
-    console.log(JSON.stringify(filter))
-
     this.jobService.searchJob(filter).then(jobs => {
-      this.jobs = jobs
-      console.log(this.jobs)
+      this.setupData(jobs)
     })
 
 
@@ -169,5 +173,48 @@ export class JobsComponent implements OnInit {
 
   getIncludeRegex(value: string){
     return `/.*${value}.*/i`
+  }
+
+  apply(jobId: string) {
+    const application = {
+      Username: this.authService.getUsername(),
+      JobId: jobId
+    }
+    this.applicationService.createApplication(application).then(() =>{
+      this.messageService.add({severity: 'success', summary: 'Success', detail: 'Application created'})
+      this.setupData()
+    })
+  }
+
+  setupData(jobs: Job[] | undefined =  undefined){
+    if(jobs != undefined){
+      this.jobs = jobs.map(job => {
+        return{
+          ...job,
+          userApplied: job.ApplicantUsernames?.includes(this.authService.getUsername()) ?? false
+        }
+      })
+    }
+    else {
+      this.jobService.getAllJobs().then(jobs => {
+        this.jobs = jobs.map(job => {
+          return{
+            ...job,
+            userApplied: job.ApplicantUsernames?.includes(this.authService.getUsername()) ?? false
+          }
+        })
+      })
+    }
+  }
+
+  removeApplication(jobId: any) {
+    const application = {
+      Username: this.authService.getUsername(),
+      JobId: jobId
+    }
+    this.applicationService.deleteApplication(application).then(() =>{
+      this.messageService.add({severity: 'success', summary: 'Success', detail: 'Application deleted'})
+      this.setupData()
+    })
   }
 }

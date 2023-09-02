@@ -44,7 +44,7 @@ func main() {
 
 	// Application
 	r.POST("/application", Controllers.CreateApplication)
-	r.DELETE("/application", Controllers.DeleteApplication)
+	r.POST("/application/delete", Controllers.DeleteApplication)
 
 	err := r.Run(":7000")
 	if err != nil {

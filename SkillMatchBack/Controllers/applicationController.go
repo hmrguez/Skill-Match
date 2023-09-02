@@ -3,6 +3,7 @@ package Controllers
 import (
 	"SkillMatchBack/Data/DTOs"
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"net/http"
@@ -53,10 +54,14 @@ func CreateApplication(c *gin.Context) {
 
 func DeleteApplication(c *gin.Context) {
 	var applicationDto DTOs.ApplicationDto
+
+	fmt.Printf("Content %v", c.ContentType())
+
 	if err := c.ShouldBindJSON(&applicationDto); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	fmt.Printf("%v", applicationDto)
 
 	user, err := UserService.GetUserByName(context.Background(), applicationDto.Username)
 	if err != nil {
