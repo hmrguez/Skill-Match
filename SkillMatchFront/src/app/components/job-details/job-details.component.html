@@ -21,7 +21,7 @@
   </div>
 
   <div *ngIf="activeTab==items[1]">
-    <p-table [value]="applicants" styleClass="p-datatable-sm" responsiveLayout="scroll">
+    <p-table [value]="applicants" selectionMode="single" styleClass="p-datatable-sm" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
           <th *ngFor="let col of applicantsColumns">
@@ -30,7 +30,7 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-rowData>
-        <tr>
+        <tr [pSelectableRow]="rowData" [routerLink]="'/profile/' + rowData.username">
           <td *ngFor="let col of applicantsColumns">
             {{rowData[col.field]}}
           </td>

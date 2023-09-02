@@ -11,16 +11,15 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit{
-  username!: string;
   githubProfile!: string;
-  user!: User
+  user: User = {GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>(),}
 
   editingGitHub: boolean = false
 
   cols!: ({ field: string; header: string })[];
   data!: Repo[];
 
-  constructor(private authService: AuthService, private userService: UserService, private messageService: MessageService, private route: ActivatedRoute) { }
+  constructor(private userService: UserService, private messageService: MessageService, private route: ActivatedRoute) { }
 
   async ngOnInit(): Promise<void> {
     this.route.paramMap.subscribe((params) => {
