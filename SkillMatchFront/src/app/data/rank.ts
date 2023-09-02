@@ -9,7 +9,7 @@ export enum Rank {
   Grandmaster = 'Grandmaster',
 }
 
-const rankOrder: Rank[] = [
+export const rankOrder: Rank[] = [
   Rank.Novice,
   Rank.Beginner,
   Rank.Intermediate,
@@ -26,7 +26,7 @@ export interface RankInfo {
   xpNeededForNextRank: number;
 }
 
-const rankXpMap: Map<Rank, number> = new Map([
+export const rankXpMap: Map<Rank, number> = new Map([
   [Rank.Novice, 0],
   [Rank.Beginner, 500],
   [Rank.Intermediate, 1500],
@@ -65,4 +65,30 @@ export function getRankInfoFromXP(xp: number): RankInfo {
     xpExcess,
     xpNeededForNextRank,
   };
+}
+
+export function findXpForRanks(rankName1: string, rankName2: string): [number, number] {
+  const rank1 = Rank[rankName1 as keyof typeof Rank];
+  const rank2 = Rank[rankName2 as keyof typeof Rank];
+
+  if (rank1 === undefined || rank2 === undefined) {
+    throw new Error('Invalid rank name');
+  }
+
+  const rank1Index = rankOrder.indexOf(rank1);
+  const rank2Index = rankOrder.indexOf(rank2);
+
+  if (rank1Index === -1 || rank2Index === -1) {
+    throw new Error('Rank not found in the order');
+  }
+
+  const xp1 = rankXpMap.get(rank1) || 0;
+  const xp2 = rankXpMap.get(rank2) || 0;
+
+  if (rank1Index <= rank2Index) {
+    const xpNeededForNextRank = rank1Index <= rank2Index ? xp2 : -1;
+    return [xp1, xpNeededForNextRank];
+  } else {
+    return [xp1, -1]; // Grandmaster reached, no next rank
+  }
 }

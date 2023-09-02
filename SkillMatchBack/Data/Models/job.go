@@ -9,6 +9,7 @@ type Job struct {
 	Description  string             `bson:"description"`
 	Company      string             `bson:"company"`
 	Location     string             `bson:"location"`
+	Salary       string             `bson:"salary"`
 	Requirements []Requirement      `bson:"requirements"`
 }
 

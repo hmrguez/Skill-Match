@@ -18,13 +18,18 @@ import { LoginComponent } from './components/login/login.component';
 import {TabViewModule} from "primeng/tabview";
 import {JWT_OPTIONS, JwtHelperService, JwtModule} from "@auth0/angular-jwt";
 import {ToastModule} from "primeng/toast";
-import {MessageService} from "primeng/api";
+import {ConfirmationService, MessageService} from "primeng/api";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import { ProfileComponent } from './components/profile/profile.component';
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {TreeTableModule} from "primeng/treetable";
 import { JobsComponent } from './components/jobs/jobs.component';
+import {ToolbarModule} from "primeng/toolbar";
+import {InputNumberModule} from "primeng/inputnumber";
+import {DialogModule} from "primeng/dialog";
+import {RippleModule} from "primeng/ripple";
+import {DropdownModule} from "primeng/dropdown";
 
 function jwtOptionsFactory() {
   return {
@@ -61,9 +66,9 @@ function jwtOptionsFactory() {
     HttpClientModule,
 
     // Primeng
-    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule, TreeTableModule
+    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule, TreeTableModule, ToolbarModule, InputNumberModule, DialogModule, RippleModule, DropdownModule
   ],
-  providers: [JwtHelperService, MessageService],
+  providers: [JwtHelperService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

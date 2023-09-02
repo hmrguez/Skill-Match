@@ -38,7 +38,7 @@ func main() {
 
 	// Jobs
 	r.GET("/jobs", Controllers.GetAllJobs)
-	r.GET("/jobs/search", Controllers.SearchJobs)
+	r.POST("/jobs/search", Controllers.SearchJobs)
 	r.POST("/jobs", Controllers.CreateJob)
 	r.GET("/jobs/:id", Controllers.GetJobByID)
 	r.PUT("/jobs/:id", Controllers.UpdateJob)
