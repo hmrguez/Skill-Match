@@ -13,6 +13,7 @@ export interface User {
   GithubRepos: Repo[]
   SkillSources: SkillSource[];
   TotalSkills: Map<string, number>;
+  JobsAppliedIds: string[]
 }
 
 export function calculateTotalSkills(skillSources: SkillSource[]): Map<string, number> {

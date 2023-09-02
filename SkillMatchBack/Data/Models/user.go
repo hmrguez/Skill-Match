@@ -23,4 +23,5 @@ type User struct {
 	HashedPassword string             `bson:"hashedPassword"`
 	SkillSources   []SkillSource      `bson:"skillSources"`
 	TotalSkills    map[string]int     `bson:"totalSkills"`
+	JobsAppliedIds []string           `bson:"applications"`
 }

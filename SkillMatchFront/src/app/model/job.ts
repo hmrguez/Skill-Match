@@ -1,3 +1,5 @@
+import {User} from "./user";
+
 export interface Job{
   ID: string
   Title: string
@@ -6,6 +8,7 @@ export interface Job{
   Location: string
   Salary: string
   Requirements: Requirement[]
+  ApplicantUsernames: string[]
 }
 
 export interface Requirement{
