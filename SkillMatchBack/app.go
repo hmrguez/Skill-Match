@@ -2,11 +2,9 @@ package main
 
 import (
 	"SkillMatchBack/Controllers"
-	"SkillMatchBack/Middleware"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	cors "github.com/rs/cors/wrapper/gin"
-	"net/http"
 )
 
 func main() {
@@ -20,14 +18,14 @@ func main() {
 	r.POST("/register", Controllers.RegisterHandler)
 	r.POST("/login", Controllers.LoginHandler)
 
-	// Authenticated route
-	authGroup := r.Group("/auth")
-	authGroup.Use(Middleware.AuthMiddleware())
-	{
-		authGroup.GET("/protected", func(c *gin.Context) {
-			c.JSON(http.StatusOK, gin.H{"message": "You have access to this protected route"})
-		})
-	}
+	//// Authenticated route example
+	//authGroup := r.Group("/auth")
+	//authGroup.Use(Middleware.AuthMiddleware())
+	//{
+	//	authGroup.GET("/protected", func(c *gin.Context) {
+	//		c.JSON(http.StatusOK, gin.H{"message": "You have access to this protected route"})
+	//	})
+	//}
 
 	// Users
 	r.GET("/users", Controllers.GetUsers)
@@ -43,6 +41,10 @@ func main() {
 	r.GET("/jobs/:id", Controllers.GetJobByID)
 	r.PUT("/jobs/:id", Controllers.UpdateJob)
 	r.DELETE("/jobs/:id", Controllers.DeleteJob)
+
+	// Application
+	r.POST("/application", Controllers.CreateApplication)
+	r.DELETE("/application", Controllers.DeleteApplication)
 
 	err := r.Run(":7000")
 	if err != nil {

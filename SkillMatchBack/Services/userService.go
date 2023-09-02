@@ -22,7 +22,7 @@ func NewUserService(database *mongo.Database) *UserService {
 }
 
 func (s *UserService) CreateUser(ctx context.Context, user Models.User) error {
-
+	user.JobsAppliedIds = make([]string, 0)
 	if user.GithubProfile != "" {
 		token := os.Getenv("GITHUB_PAT")
 		Helper.AttachGithubStatsToUser(&user, token)
@@ -74,7 +74,9 @@ func (s *UserService) GetAllUsers(ctx context.Context) ([]Models.User, error) {
 }
 
 func (s *UserService) UpdateUser(ctx context.Context, name string, user Models.User) error {
-	if user.GithubProfile != "" {
+
+	realUser, _ := s.GetUserByName(ctx, name)
+	if realUser.GithubProfile != user.GithubProfile && user.GithubProfile != "" {
 		token := os.Getenv("GITHUB_PAT")
 		Helper.AttachGithubStatsToUser(&user, token)
 	}

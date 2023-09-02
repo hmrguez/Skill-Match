@@ -48,7 +48,7 @@ export class JobsComponent implements OnInit {
 
   openNew() {
     this.model = {
-      Company: "", Description: "", ID: "", Location: "", Requirements: [], Salary: "", Title: ""
+      Company: "", Description: "", ID: "", Location: "", Requirements: [], Salary: "", Title: "", ApplicantUsernames: []
     };
     this.submitted = false;
     this.productDialog = true;
