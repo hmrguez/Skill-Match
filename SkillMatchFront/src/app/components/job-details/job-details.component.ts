@@ -19,6 +19,7 @@ export class JobDetailsComponent implements OnInit{
 
   applicants: any;
   applicantsColumns: any;
+  globalFilter: any;
 
   constructor(private route: ActivatedRoute, private jobService: JobService, private userService: UserService, private authService: AuthService) {
     this.items = [

@@ -21,7 +21,18 @@
   </div>
 
   <div *ngIf="activeTab==items[1]">
-    <p-table [value]="applicants" selectionMode="single" styleClass="p-datatable-sm" responsiveLayout="scroll">
+    <p-table #dt1 [value]="applicants" selectionMode="single" styleClass="p-datatable-sm" responsiveLayout="scroll"
+             [globalFilterFields]="['username']"
+
+    >
+      <ng-template pTemplate="caption">
+        <div class="flex">
+          <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input pInputText [(ngModel)]="globalFilter" type="text" (input)="dt1.filterGlobal(globalFilter, 'contains')" placeholder="Search keyword" />
+                </span>
+        </div>
+      </ng-template>
       <ng-template pTemplate="header">
         <tr>
           <th *ngFor="let col of applicantsColumns">
