@@ -16,36 +16,39 @@ export class SidenavComponent implements OnInit{
 
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter<SideNavToggle>()
 
-  navbarData = [
-    {
-      routeLink: "/dashboard",
-      icon: "pi pi-folder",
-      label: "Dashboard",
-    },
-    {
-      routeLink: "/profile",
-      icon: "pi pi-prime",
-      label: "Profile",
-    },
-    {
-      routeLink: "/skills",
-      icon: "pi pi-star",
-      label: "Skills",
-    },
-    {
-      routeLink: "/jobs",
-      icon: "pi pi-briefcase",
-      label: "Jobs",
-    },
-    {
-      routeLink: "/login",
-      icon: "pi pi-user",
-      label: "Login",
-    },
-  ];
+  navData: any
+  collapsed = false;
+  screenWidth: number = 0;
 
-
-  constructor(public authService: AuthService){}
+  constructor(public authService: AuthService){
+    this.navData = [
+      {
+        routeLink: "/dashboard",
+        icon: "pi pi-folder",
+        label: "Dashboard",
+      },
+      {
+        routeLink: `/profile/${this.authService.getUsername()}`,
+        icon: "pi pi-prime",
+        label: "Profile",
+      },
+      {
+        routeLink: "/skills",
+        icon: "pi pi-star",
+        label: "Skills",
+      },
+      {
+        routeLink: "/jobs",
+        icon: "pi pi-briefcase",
+        label: "Jobs",
+      },
+      {
+        routeLink: "/login",
+        icon: "pi pi-user",
+        label: "Login",
+      },
+    ];
+  }
 
   @HostListener('window:resize', ['$event'])
   onResize() {
@@ -55,10 +58,6 @@ export class SidenavComponent implements OnInit{
       this.onToggleSideNav.emit({screenWidth: this.screenWidth, collapsed: this.collapsed})
     }
   }
-
-  collapsed = false;
-  navData = this.navbarData
-  screenWidth: number = 0;
 
   toggleCollapse() {
     this.collapsed = !this.collapsed;

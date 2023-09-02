@@ -3,6 +3,7 @@ import {AuthService} from "../../services/auth.service";
 import {Repo, User} from "../../model/user";
 import {UserService} from "../../services/user.service";
 import { MessageService} from "primeng/api";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-profile',
@@ -19,19 +20,23 @@ export class ProfileComponent implements OnInit{
   cols!: ({ field: string; header: string })[];
   data!: Repo[];
 
-  constructor(private authService: AuthService, private userService: UserService, private messageService: MessageService) { }
+  constructor(private authService: AuthService, private userService: UserService, private messageService: MessageService, private route: ActivatedRoute) { }
 
   async ngOnInit(): Promise<void> {
-    this.username = this.authService.getUsername()
-    this.user = await this.userService.getUserByName(this.username)
-    this.githubProfile = this.user.GithubProfile
+    this.route.paramMap.subscribe((params) => {
+      const username = params.get('username')!;
+      this.userService.getUserByName(username).then(user => {
+        this.user = user
+        this.githubProfile = this.user.GithubProfile
+        this.data = this.user.GithubRepos
+      })
+    });
 
     this.cols = [
       { field: 'Name', header: 'Name' },
       { field: 'Description', header: 'Description' },
     ];
 
-    this.data = this.user.GithubRepos
   }
 
   startEditingGitHub() {

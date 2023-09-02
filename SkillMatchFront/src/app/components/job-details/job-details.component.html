@@ -1,1 +1,41 @@
-<p>job-details works!</p>
+<p-card>
+  <p-tabMenu [model]="items" (activeItemChange)="changeTab($event)"></p-tabMenu>
+
+  <div *ngIf="activeTab==items[0]">
+    <h1>{{job.Title}}</h1>
+    <h3>@{{job.Company}}</h3>
+    <h3>{{job.Location}}</h3>
+    <h3>{{job.Salary}}</h3>
+    <p class="fw-bolder mt-3">{{job.Description}}</p>
+
+    <h3>Requirements:</h3>
+    <ul class="list-group">
+      <li class="list-group-item" *ngFor="let requirement of job.Requirements">
+        <div class="row">
+          <p class="col-4">Skill: {{ requirement.Skill }}</p>
+          <p class="col-4">Min: {{ requirement.Min }}</p>
+          <p class="col-4">Max: {{ requirement.Max }}</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="activeTab==items[1]">
+    <p-table [value]="applicants" styleClass="p-datatable-sm" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th *ngFor="let col of applicantsColumns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData>
+        <tr>
+          <td *ngFor="let col of applicantsColumns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</p-card>

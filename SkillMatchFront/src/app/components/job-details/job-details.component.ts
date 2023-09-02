@@ -1,5 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {Job} from "../../model/job";
+import {JobService} from "../../services/job.service";
+import {UserService} from "../../services/user.service";
+import {MenuItem} from "primeng/api";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-job-details',
@@ -7,13 +12,49 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./job-details.component.scss']
 })
 export class JobDetailsComponent implements OnInit{
-  constructor(private route: ActivatedRoute) {}
+  job: Job = {ApplicantUsernames: [], Company: "", Description: "", ID: "", Location: "", Requirements: [], Salary: "", Title: ""}
+
+  items: MenuItem[];
+  activeTab: any;
+
+  applicants: any;
+  applicantsColumns: any;
+
+  constructor(private route: ActivatedRoute, private jobService: JobService, private userService: UserService, private authService: AuthService) {
+    this.items = [
+      {label: 'Job details', icon: 'pi pi-fw pi-home'},
+    ];
+
+    this.applicantsColumns = [
+      { field: 'username', header: 'Username' },
+    ];
+
+    this.activeTab = this.items[0]
+  }
 
   ngOnInit(): void {
-    // Access the 'id' parameter from the route
     this.route.paramMap.subscribe((params) => {
-      const productId = params.get('id');
-      console.log('Job ID:', productId);
+      const jobId = params.get('id')!;
+      this.jobService.getJobById(jobId).then(x=> {
+        this.job = x
+
+        if(this.job.Company == this.authService.getUsername()){
+
+          // Add applicants tab
+          this.items = [
+            ...this.items,
+            {label: 'Applicants', icon: 'pi pi-fw pi-users'},
+          ];
+        }
+
+        this.applicants = this.job.ApplicantUsernames.map(x => {
+          return {username: x}
+        })
+      })
     });
+  }
+
+  changeTab(item: MenuItem) {
+    this.activeTab = item
   }
 }
