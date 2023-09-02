@@ -1,32 +1,33 @@
 <p-card>
   <ng-template pTemplate="body">
+    <p-tabMenu [model]="items" (activeItemChange)="changeTab($event)"></p-tabMenu>
 
-    <p-toolbar styleClass="mb-4">
-      <ng-template pTemplate="left">
-        <button pButton pRipple label="New job" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
-        <button pButton pRipple label="New filter" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewFilter()"></button>
-      </ng-template>
-    </p-toolbar>
+      <p-toolbar styleClass="mb-4">
+        <ng-template pTemplate="left">
+          <button pButton pRipple label="New job" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+          <button pButton pRipple label="New filter" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewFilter()"></button>
+        </ng-template>
+      </p-toolbar>
 
-    <p-table #dt [columns]="cols" [value]="jobs" responsiveLayout="scroll">
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th *ngFor="let col of columns">
-            {{col.header}}
-          </th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr>
-          <td *ngFor="let col of columns">
-            {{rowData[col.field]}}
-          </td>
-          <td>
-            <button pButton pRipple [icon]="rowData.userApplied ? 'pi pi-times' : 'pi pi-pencil'" class="p-button-rounded p-button-success mr-2" (click)="rowData.userApplied ? removeApplication(rowData.ID) : apply(rowData.ID)"></button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
+      <p-table #dt [columns]="cols" [value]="jobs" responsiveLayout="scroll">
+        <ng-template pTemplate="header" let-columns>
+          <tr>
+            <th *ngFor="let col of columns">
+              {{col.header}}
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-columns="columns">
+          <tr>
+            <td *ngFor="let col of columns">
+              {{rowData[col.field]}}
+            </td>
+            <td>
+              <button *ngIf="activeItem==items[0]" pButton pRipple [icon]="rowData.userApplied ? 'pi pi-times' : 'pi pi-pencil'" class="p-button-rounded p-button-success mr-2" (click)="rowData.userApplied ? removeApplication(rowData.ID) : apply(rowData.ID)"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
   </ng-template>
 </p-card>
 

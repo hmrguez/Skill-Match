@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {JobService} from "../../services/job.service";
 import {Job, Requirement} from "../../model/job";
-import {ConfirmationService, MessageService} from "primeng/api";
+import {ConfirmationService, MenuItem, MessageService} from "primeng/api";
 import {findXpForRanks, Rank, rankOrder, rankXpMap} from "../../data/rank";
 import {Table} from "primeng/table";
 import {ApplicationService} from "../../services/application.service";
 import {AuthService} from "../../services/auth.service";
+import {TabMenu} from "primeng/tabmenu";
 
 @Component({
   selector: 'app-jobs',
@@ -14,6 +15,7 @@ import {AuthService} from "../../services/auth.service";
 })
 export class JobsComponent implements OnInit {
   @ViewChild("dt") Table!: Table
+  @ViewChild("tm") TabMenu!: TabMenu
 
   cols: any;
   jobs: any;
@@ -29,25 +31,39 @@ export class JobsComponent implements OnInit {
   selectedMaxRank!: Rank;
   selectedSkill!: string;
 
+  items!: MenuItem[];
+  activeItem: MenuItem;
+
+  applications!: any[];
+  applicationCols!: any[];
+
 
   constructor(
     private jobService: JobService,
     private messageService: MessageService,
     private confirmationService: ConfirmationService,
     private applicationService: ApplicationService,
-    private authService: AuthService
-    ) {
-      this.cols = [
-        {field: 'Title', header: 'Title'},
-        {field: 'Description', header: 'Description'},
-        {field: 'Location', header: 'Location'},
-        {field: 'Salary', header: 'Salary'},
-        {field: 'Company', header: 'Company'},
-      ]
+    private authService: AuthService)
+  {
 
-      for (const [rank, lowerBound] of rankXpMap) {
-        this.rankOptions.push(rank)
-      }
+    this.cols = [
+      {field: 'Title', header: 'Title'},
+      {field: 'Description', header: 'Description'},
+      {field: 'Location', header: 'Location'},
+      {field: 'Salary', header: 'Salary'},
+      {field: 'Company', header: 'Company'},
+    ]
+
+    this.items = [
+      {label: 'All Jobs', icon: 'pi pi-fw pi-home'},
+      {label: 'My postings', icon: 'pi pi-fw pi-calendar'},
+      {label: 'My applications', icon: 'pi pi-fw pi-pencil'},
+    ];
+
+    this.activeItem = this.items[0];
+    for (const [rank, lowerBound] of rankXpMap) {
+      this.rankOptions.push(rank)
+    }
   }
 
   ngOnInit() {
@@ -56,7 +72,7 @@ export class JobsComponent implements OnInit {
 
   openNew() {
     this.model = {
-      Company: "", Description: "", ID: "", Location: "", Requirements: [], Salary: "", Title: "", ApplicantUsernames: []
+      Company: this.authService.getUsername(), Description: "", ID: "", Location: "", Requirements: [], Salary: "", Title: "", ApplicantUsernames: []
     };
     this.submitted = false;
     this.productDialog = true;
@@ -216,5 +232,18 @@ export class JobsComponent implements OnInit {
       this.messageService.add({severity: 'success', summary: 'Success', detail: 'Application deleted'})
       this.setupData()
     })
+  }
+
+  async changeTab(event: MenuItem) {
+    this.activeItem = event
+    if(this.activeItem == this.items[0]){
+      this.setupData()
+    } else if(this.activeItem == this.items[1]){
+      const jobs = (await this.jobService.getAllJobs()).filter(x=>x.Company == this.authService.getUsername())
+      this.setupData(jobs)
+    } else{
+      const jobs = (await this.jobService.getAllJobs()).filter(x=>x.ApplicantUsernames?.includes(this.authService.getUsername()))
+      this.setupData(jobs)
+    }
   }
 }

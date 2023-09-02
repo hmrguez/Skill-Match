@@ -30,6 +30,7 @@ import {InputNumberModule} from "primeng/inputnumber";
 import {DialogModule} from "primeng/dialog";
 import {RippleModule} from "primeng/ripple";
 import {DropdownModule} from "primeng/dropdown";
+import {TabMenuModule} from "primeng/tabmenu";
 
 function jwtOptionsFactory() {
   return {
@@ -66,7 +67,7 @@ function jwtOptionsFactory() {
     HttpClientModule,
 
     // Primeng
-    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule, TreeTableModule, ToolbarModule, InputNumberModule, DialogModule, RippleModule, DropdownModule
+    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule, TreeTableModule, ToolbarModule, InputNumberModule, DialogModule, RippleModule, DropdownModule, TabMenuModule
   ],
   providers: [JwtHelperService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]
