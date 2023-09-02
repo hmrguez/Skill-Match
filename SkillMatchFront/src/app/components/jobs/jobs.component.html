@@ -9,7 +9,7 @@
         </ng-template>
       </p-toolbar>
 
-      <p-table #dt [columns]="cols" [value]="jobs" responsiveLayout="scroll">
+      <p-table #dt [columns]="cols" [value]="jobs" selectionMode="single" [(selection)]="selectedJob" dataKey="ID" responsiveLayout="scroll" (onRowSelect)="onRowSelect($event)">
         <ng-template pTemplate="header" let-columns>
           <tr>
             <th *ngFor="let col of columns">
@@ -18,7 +18,7 @@
           </tr>
         </ng-template>
         <ng-template pTemplate="body" let-rowData let-columns="columns">
-          <tr>
+          <tr [pSelectableRow]="rowData">
             <td *ngFor="let col of columns">
               {{rowData[col.field]}}
             </td>

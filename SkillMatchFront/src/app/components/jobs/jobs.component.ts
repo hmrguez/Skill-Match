@@ -7,6 +7,7 @@ import {Table} from "primeng/table";
 import {ApplicationService} from "../../services/application.service";
 import {AuthService} from "../../services/auth.service";
 import {TabMenu} from "primeng/tabmenu";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-jobs',
@@ -34,16 +35,16 @@ export class JobsComponent implements OnInit {
   items!: MenuItem[];
   activeItem: MenuItem;
 
-  applications!: any[];
-  applicationCols!: any[];
+  selectedJob: any;
 
 
   constructor(
     private jobService: JobService,
     private messageService: MessageService,
-    private confirmationService: ConfirmationService,
     private applicationService: ApplicationService,
-    private authService: AuthService)
+    private authService: AuthService,
+    private router: Router
+    )
   {
 
     this.cols = [
@@ -245,5 +246,10 @@ export class JobsComponent implements OnInit {
       const jobs = (await this.jobService.getAllJobs()).filter(x=>x.ApplicantUsernames?.includes(this.authService.getUsername()))
       this.setupData(jobs)
     }
+  }
+
+  onRowSelect(event: any) {
+    let jobId = event.data.ID
+    this.router.navigate([`/jobs/details/${jobId}`])
   }
 }

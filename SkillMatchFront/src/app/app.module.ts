@@ -31,6 +31,7 @@ import {DialogModule} from "primeng/dialog";
 import {RippleModule} from "primeng/ripple";
 import {DropdownModule} from "primeng/dropdown";
 import {TabMenuModule} from "primeng/tabmenu";
+import { JobDetailsComponent } from './components/job-details/job-details.component';
 
 function jwtOptionsFactory() {
   return {
@@ -50,6 +51,7 @@ function jwtOptionsFactory() {
     LoginComponent,
     ProfileComponent,
     JobsComponent,
+    JobDetailsComponent,
   ],
   imports: [
     // Jwt
