@@ -17,7 +17,7 @@ export class JobDetailsComponent implements OnInit{
   items: MenuItem[];
   activeTab: any;
 
-  applicants: any;
+  applicants: any[] = [];
   applicantsColumns: any;
   globalFilter: any;
 
@@ -28,6 +28,7 @@ export class JobDetailsComponent implements OnInit{
 
     this.applicantsColumns = [
       { field: 'username', header: 'Username' },
+      { field: 'matches', header: 'Matches Requirements' },
     ];
 
     this.activeTab = this.items[0]
@@ -48,8 +49,10 @@ export class JobDetailsComponent implements OnInit{
           ];
         }
 
-        this.applicants = this.job.ApplicantUsernames.map(x => {
-          return {username: x}
+        this.job.ApplicantUsernames.forEach(async username => {
+          const user = await this.userService.getUserByName(username)
+          const matches = this.userService.userMeetsSkillRequirements(user, this.job.Requirements)
+          this.applicants.push({username: username, matches: matches})
         })
       })
     });

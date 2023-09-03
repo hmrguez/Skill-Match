@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import {User} from "../model/user";
 import {HttpClient} from "@angular/common/http";
+import {Skill} from "../model/skill";
+import {Job, Requirement} from "../model/job";
 
 @Injectable({
   providedIn: 'root'
@@ -30,5 +32,29 @@ export class UserService {
 
   async getAllUsers(): Promise<User[]> {
     return (await this.http.get<User[]>(`${this.baseUrl}`).toPromise()) ?? [];
+  }
+
+  userMeetsSkillRequirements(user: User, requirements: Requirement[]): boolean {
+    let userSkills = user.TotalSkills;
+    let meetsRequirements = true;
+    for (let requirement of requirements) {
+      let found = false;
+      try {
+        for (let userSkill of userSkills) {
+          if (userSkill[0] === requirement.Skill && userSkill[1] >= requirement.Min && userSkill[1] <= requirement.Max) {
+            found = true;
+            break;
+          }
+        }
+        if (!found) {
+          meetsRequirements = false;
+          break;
+        }
+      } catch (e) {
+        return false
+      }
+
+    }
+    return meetsRequirements;
   }
 }
