@@ -81,7 +81,12 @@ func (s *UserService) UpdateUser(ctx context.Context, name string, user Models.U
 		Helper.AttachGithubStatsToUser(&user, token)
 	}
 
+	if len(realUser.Certifications) != len(user.Certifications) {
+		Helper.AddCertificationsSkillSource(&user)
+	}
+
 	user.TotalSkills = Helper.CalculateTotalSkills(user.SkillSources)
+
 	_, err := s.collection.UpdateOne(ctx, bson.M{"name": name}, bson.M{"$set": user})
 	if err != nil {
 		log.Println("Failed to update user:", err)

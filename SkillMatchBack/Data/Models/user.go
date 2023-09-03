@@ -16,11 +16,11 @@ type Repo struct {
 }
 
 type Certification struct {
-	Name      string   `bson:"name"`
-	Issuer    string   `bson:"issuer"`
-	IssueDate string   `bson:"issueDate"`
-	Url       string   `bson:"url"`
-	Skills    []string `bson:"skills"`
+	Name      string        `bson:"name"`
+	Issuer    string        `bson:"issuer"`
+	IssueDate string        `bson:"issueDate"`
+	Url       string        `bson:"url"`
+	Skills    LanguageStats `bson:"skills"`
 }
 
 type User struct {

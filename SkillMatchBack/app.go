@@ -46,6 +46,9 @@ func main() {
 	r.POST("/application", Controllers.CreateApplication)
 	r.POST("/application/delete", Controllers.DeleteApplication)
 
+	// Certification
+	r.POST("/certification/:username", Controllers.CreateCertification)
+
 	err := r.Run(":7000")
 	if err != nil {
 		panic("Server was not able to start")
