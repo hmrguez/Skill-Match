@@ -1,1 +1,56 @@
-<p>certifications works!</p>
+<p-card>
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="New certification" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table [columns]="cols" [value]="certifications" responsiveLayout="scroll">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{col.header}}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns">
+          <div *ngIf="col.field == 'Skills' "><p-chips [disabled]="true" [ngModel]="rowData.Skills"></p-chips></div>
+          <div *ngIf="col.field != 'Skills' ">{{rowData[col.field]}}</div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+<p-dialog [draggable]="false" [modal]="true" [(visible)]="dialogVisible">
+  <form #form="ngForm" (ngSubmit)="onSubmit(form.value)" enctype="multipart/form-data">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" pInputText [(ngModel)]="certificateModel.Name" required>
+      </div>
+      <div class="p-field">
+        <label for="issuer">Issuer</label>
+        <input type="text" id="issuer" name="issuer" pInputText [(ngModel)]="certificateModel.Issuer" required>
+      </div>
+      <div class="p-field">
+        <label for="image">Image</label>
+        <p-fileUpload id="image" name="image" (onSelect)="onFileUpload($event.files[0])" [auto]="true"></p-fileUpload>
+      </div>
+      <div class="p-field">
+        <label for="tags">Tags</label>
+        <p-chips id="tags" name="tags" [(ngModel)]="certificateModel.Skills"></p-chips>
+      </div>
+      <div class="p-field">
+        <label for="dateIssued">Date Issued</label>
+        <input type="date" id="dateIssued" name="dateIssued" pInputText [(ngModel)]="certificateModel.IssueDate" required>
+      </div>
+      <div class="p-field">
+        <button type="submit" pButton label="Submit" [disabled]="!form.valid"></button>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+

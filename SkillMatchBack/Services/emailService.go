@@ -63,3 +63,40 @@ func (es *EmailService) Send(from, to, subject, body string, attachment *os.File
 
 	return nil
 }
+
+// SendWithAttachment sends an email with a byte slice as an attachment.
+func (es *EmailService) SendWithAttachment(from, to, subject, body string, attachmentContent []byte, attachmentFilename string) error {
+	// Compose the email message
+	msg := "Subject: " + subject + "\r\n"
+	msg += "To: " + to + "\r\n"
+	msg += "From: " + from + "\r\n"
+	msg += "MIME-Version: 1.0\r\n"
+	msg += "Content-Type: multipart/mixed; boundary=boundary123\r\n"
+	msg += "\r\n"
+
+	// Add the email body
+	msg += "--boundary123\r\n"
+	msg += "Content-Type: text/plain; charset=\"utf-8\"\r\n"
+	msg += "\r\n" + body + "\r\n"
+
+	// Add the file attachment
+	msg += "--boundary123\r\n"
+	msg += "Content-Type: application/octet-stream\r\n"
+	msg += "Content-Disposition: attachment; filename=\"" + attachmentFilename + "\"\r\n"
+	msg += "\r\n"
+
+	// Append the attachment content to the message
+	msg += string(attachmentContent) + "\r\n"
+
+	// End the email
+	msg += "--boundary123--"
+
+	// Establish a connection to the SMTP server
+	auth := smtp.PlainAuth("", es.SMTPUsername, es.SMTPPassword, es.SMTPServer)
+	err := smtp.SendMail(fmt.Sprintf("%s:%d", es.SMTPServer, es.SMTPPort), auth, from, []string{to}, []byte(msg))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

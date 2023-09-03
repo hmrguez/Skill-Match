@@ -47,7 +47,8 @@ func main() {
 	r.POST("/application/delete", Controllers.DeleteApplication)
 
 	// Certification
-	r.POST("/certification/:username", Controllers.CreateCertification)
+	r.POST("/certifications/:username", Controllers.CreateCertification)
+	r.POST("/certifications/upload/:username", Controllers.UploadCertification)
 
 	err := r.Run(":7000")
 	if err != nil {

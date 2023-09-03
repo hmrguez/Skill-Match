@@ -1,10 +1,77 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AuthService} from "../../services/auth.service";
+import {UserService} from "../../services/user.service";
+import {Certification} from "../../model/certification";
+import {CertificationService} from "../../services/certification.service";
+import {Form} from "@angular/forms";
+import {MessageService} from "primeng/api";
 
 @Component({
   selector: 'app-certifications',
   templateUrl: './certifications.component.html',
   styleUrls: ['./certifications.component.scss']
 })
-export class CertificationsComponent {
+export class CertificationsComponent implements OnInit{
+  certificateModel: any = {};
+  dialogVisible: boolean = false;
+
+  certifications!: any[]
+  cols: any;
+
+  constructor(private authService: AuthService, private userService: UserService, private certificationService: CertificationService, private messageService: MessageService) {
+    this.cols = [
+      { field: 'Name', header: 'Name' },
+      { field: 'Issuer', header: 'Issuer' },
+      { field: 'Date', header: 'Date Issued' },
+      { field: 'Skills', header: 'Skills' },
+    ];
+  }
+
+  onSubmit(formData: any) {
+    const data = {
+      Name: this.certificateModel.Name,
+      Issuer: this.certificateModel.Issuer,
+      IssueDate: this.certificateModel.IssueDate,
+      Skills: this.certificateModel.Skills
+    }
+
+    const file = this.certificateModel.file;
+    this.certificationService.uploadCertification(data, file, this.authService.getUsername()).then(r => {
+      this.messageService.add({severity:'success', summary:'Success', detail:'Certificate uploaded'})
+    })
+  }
+
+
+  onFileUpload(file: any) {
+    this.certificateModel.file = file;
+  }
+
+  openNew() {
+    this.dialogVisible = true
+  }
+
+  async ngOnInit() {
+    const username = await this.authService.getUsername()
+    const user = await this.userService.getUserByName(username)
+    this.certifications = user?.Certifications.map((cert: Certification) => {
+      return{
+        Name: cert.Name,
+        Issuer: cert.Issuer,
+        Date: cert.IssueDate,
+        Skills: Object.keys(cert.Skills)
+      }
+    })
+  }
+
+  createFormData(input: any): FormData {
+    const formData = new FormData();
+    formData.append('Name', input.Name);
+    formData.append('Issuer', input.Issuer);
+    formData.append('IssueDate', input.IssueDate);
+    input.Skills.forEach((item: any, index: number) => {
+      formData.append(`Skills[${index}]`, item);
+    });
+    return formData;
+  }
 
 }
