@@ -1,1 +1,32 @@
 <h1>Dashboard</h1>
+
+<!-- src/app/certificate-form/certificate-form.component.html -->
+
+<form #form="ngForm" (ngSubmit)="onSubmit(form.value)" enctype="multipart/form-data">
+  <div class="p-fluid">
+    <div class="p-field">
+      <label for="name">Name</label>
+      <input type="text" id="name" name="name" pInputText [(ngModel)]="certificate.name" required>
+    </div>
+    <div class="p-field">
+      <label for="issuer">Issuer</label>
+      <input type="text" id="issuer" name="issuer" pInputText [(ngModel)]="certificate.issuer" required>
+    </div>
+    <div class="p-field">
+      <label for="image">Image</label>
+      <p-fileUpload id="image" name="image" accept="image/*" (onSelect)="onFileUpload($event.files[0])" [auto]="true"></p-fileUpload>
+    </div>
+    <div class="p-field">
+      <label for="tags">Tags</label>
+      <p-chips id="tags" name="tags" [(ngModel)]="certificate.tags"></p-chips>
+
+    </div>
+    <div class="p-field">
+      <label for="dateIssued">Date Issued</label>
+      <input type="date" id="dateIssued" name="dateIssued" pInputText [(ngModel)]="certificate.dateIssued" required>
+    </div>
+    <div class="p-field">
+      <button type="submit" pButton label="Submit" [disabled]="!form.valid"></button>
+    </div>
+  </div>
+</form>
