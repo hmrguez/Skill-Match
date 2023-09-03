@@ -15,11 +15,20 @@ type Repo struct {
 	Languages   LanguageStats `bson:"languages"`
 }
 
+type Certification struct {
+	Name      string   `bson:"name"`
+	Issuer    string   `bson:"issuer"`
+	IssueDate string   `bson:"issueDate"`
+	Url       string   `bson:"url"`
+	Skills    []string `bson:"skills"`
+}
+
 type User struct {
 	ID             primitive.ObjectID `bson:"_id,omitempty"`
 	Name           string             `bson:"name"`
 	GithubProfile  string             `bson:"githubProfile"`
 	GithubRepos    []Repo             `bson:"githubRepos"`
+	Certifications []Certification    `bson:"certifications"`
 	HashedPassword string             `bson:"hashedPassword"`
 	SkillSources   []SkillSource      `bson:"skillSources"`
 	TotalSkills    map[string]int     `bson:"totalSkills"`

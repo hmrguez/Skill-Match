@@ -1,4 +1,5 @@
 import {SkillSource} from "./skillSource";
+import {Certification} from "./certification";
 
 export interface Repo {
   Name: string;
@@ -11,6 +12,7 @@ export interface User {
   Name: string;
   GithubProfile: string
   GithubRepos: Repo[]
+  Certifications: Certification[]
   SkillSources: SkillSource[];
   TotalSkills: Map<string, number>;
   JobsAppliedIds: string[]
