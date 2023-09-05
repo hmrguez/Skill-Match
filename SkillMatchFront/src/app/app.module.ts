@@ -37,6 +37,7 @@ import {ChipsModule} from "primeng/chips";
 import {FileUploadModule} from "primeng/fileupload";
 import { CertificationsComponent } from './components/profile-page/certifications/certifications.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
+import { ExperienceComponent } from './components/profile-page/experience/experience.component';
 
 function jwtOptionsFactory() {
   return {
@@ -59,6 +60,7 @@ function jwtOptionsFactory() {
     JobDetailsComponent,
     CertificationsComponent,
     ProfilePageComponent,
+    ExperienceComponent,
   ],
   imports: [
     // Jwt
