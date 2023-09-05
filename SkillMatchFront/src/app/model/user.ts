@@ -18,6 +18,7 @@ export interface WorkExperience {
 
 export interface User {
   Name: string;
+  Email: string;
   GithubProfile: string
   GithubRepos: Repo[]
   Certifications: Certification[]

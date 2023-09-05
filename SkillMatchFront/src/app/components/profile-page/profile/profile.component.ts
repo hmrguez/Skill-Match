@@ -11,7 +11,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ProfileComponent implements OnInit{
   @Input() githubProfile: string = '';
-  @Input() user: User = {WorkExperiences: [], Certifications: [], GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() user: User = {Email: '',WorkExperiences: [], Certifications: [], GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
   @Input() data: Repo[] = [];
 
   editingGitHub: boolean = false

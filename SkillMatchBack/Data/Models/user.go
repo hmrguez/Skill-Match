@@ -34,6 +34,7 @@ type WorkExperience struct {
 type User struct {
 	ID              primitive.ObjectID `bson:"_id,omitempty"`
 	Name            string             `bson:"name"`
+	Email           string             `bson:"email"`
 	GithubProfile   string             `bson:"githubProfile"`
 	GithubRepos     []Repo             `bson:"githubRepos"`
 	Certifications  []Certification    `bson:"certifications"`

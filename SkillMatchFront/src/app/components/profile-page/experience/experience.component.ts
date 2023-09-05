@@ -9,7 +9,7 @@ import {MessageService} from "primeng/api";
   styleUrls: ['./experience.component.scss']
 })
 export class ExperienceComponent {
-  @Input() user: User = { WorkExperiences: [], Certifications: [], GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() user: User = {Email: '', WorkExperiences: [], Certifications: [], GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
   @Input() data: any[] = [];
   cols: any[] = [];
   dialogVisible: boolean = false;
