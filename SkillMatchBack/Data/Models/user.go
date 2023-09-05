@@ -23,14 +23,23 @@ type Certification struct {
 	Skills    LanguageStats `bson:"skills"`
 }
 
+type WorkExperience struct {
+	Title       string `bson:"title"`
+	Company     string `bson:"company"`
+	Description string `bson:"description"`
+	StartDate   string `bson:"startDate"`
+	EndDate     string `bson:"endDate"`
+}
+
 type User struct {
-	ID             primitive.ObjectID `bson:"_id,omitempty"`
-	Name           string             `bson:"name"`
-	GithubProfile  string             `bson:"githubProfile"`
-	GithubRepos    []Repo             `bson:"githubRepos"`
-	Certifications []Certification    `bson:"certifications"`
-	HashedPassword string             `bson:"hashedPassword"`
-	SkillSources   []SkillSource      `bson:"skillSources"`
-	TotalSkills    map[string]int     `bson:"totalSkills"`
-	JobsAppliedIds []string           `bson:"applications"`
+	ID              primitive.ObjectID `bson:"_id,omitempty"`
+	Name            string             `bson:"name"`
+	GithubProfile   string             `bson:"githubProfile"`
+	GithubRepos     []Repo             `bson:"githubRepos"`
+	Certifications  []Certification    `bson:"certifications"`
+	HashedPassword  string             `bson:"hashedPassword"`
+	SkillSources    []SkillSource      `bson:"skillSources"`
+	TotalSkills     map[string]int     `bson:"totalSkills"`
+	JobsAppliedIds  []string           `bson:"applications"`
+	WorkExperiences []WorkExperience   `bson:"workExperiences"`
 }

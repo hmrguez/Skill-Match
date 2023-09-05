@@ -1,1 +1,57 @@
-<p>experience works!</p>
+<p-card>
+
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="New work experience" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+    </ng-template>
+  </p-toolbar>
+
+  <ng-template pTemplate="body">
+    <p-table [columns]="cols" [value]="data" responsiveLayout="scroll">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{col.header}}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns">
+            {{rowData[col.field]}}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </ng-template>
+</p-card>
+
+<p-dialog [draggable]="false" [modal]="true" [(visible)]="dialogVisible">
+  <form #form="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" pInputText [(ngModel)]="model.Title" required>
+      </div>
+      <div class="p-field">
+        <label for="company">Company</label>
+        <input type="text" id="company" name="company" pInputText [(ngModel)]="model.Company" required>
+      </div>
+      <div class="p-field">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" pInputText [(ngModel)]="model.Description" required>
+      </div>
+      <div class="p-field">
+        <label for="startDate">Start Date</label>
+        <p-calendar id="startDate" [(ngModel)]="model.StartDate" [required]="true" [ngModelOptions]="{standalone: true}" ></p-calendar>
+      </div>
+      <div class="p-field">
+        <label for="endDate">End Date</label>
+        <p-calendar id="endDate" [(ngModel)]="model.EndDate" [ngModelOptions]="{standalone: true}"></p-calendar>
+      </div>
+      <div class="p-field">
+        <button type="submit" pButton label="Submit" [disabled]="!form.valid"></button>
+      </div>
+    </div>
+  </form>
+</p-dialog>

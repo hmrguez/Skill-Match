@@ -15,5 +15,5 @@
   <app-certifications [user]="user"></app-certifications>
 </div>
 <div *ngIf="openTab==3">
-  <app-experience></app-experience>
+  <app-experience [user]="user" [data]="user.WorkExperiences"></app-experience>
 </div>

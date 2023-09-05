@@ -38,6 +38,7 @@ import {FileUploadModule} from "primeng/fileupload";
 import { CertificationsComponent } from './components/profile-page/certifications/certifications.component';
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { ExperienceComponent } from './components/profile-page/experience/experience.component';
+import {CalendarModule} from "primeng/calendar";
 
 function jwtOptionsFactory() {
   return {
@@ -78,7 +79,7 @@ function jwtOptionsFactory() {
     HttpClientModule,
 
     // Primeng
-    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule, TreeTableModule, ToolbarModule, InputNumberModule, DialogModule, RippleModule, DropdownModule, TabMenuModule, BadgeModule, ChipsModule, FileUploadModule
+    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule, TreeTableModule, ToolbarModule, InputNumberModule, DialogModule, RippleModule, DropdownModule, TabMenuModule, BadgeModule, ChipsModule, FileUploadModule, CalendarModule
   ],
   providers: [JwtHelperService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]

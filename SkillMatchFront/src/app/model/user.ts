@@ -8,6 +8,14 @@ export interface Repo {
   LanguageStats: Map<string, number>;
 }
 
+export interface WorkExperience {
+  Title: string
+  Company: string
+  Description: string
+  StartDate: string
+  EndDate: string
+}
+
 export interface User {
   Name: string;
   GithubProfile: string
@@ -16,6 +24,7 @@ export interface User {
   SkillSources: SkillSource[];
   TotalSkills: Map<string, number>;
   JobsAppliedIds: string[]
+  WorkExperiences: WorkExperience[]
 }
 
 export function calculateTotalSkills(skillSources: SkillSource[]): Map<string, number> {

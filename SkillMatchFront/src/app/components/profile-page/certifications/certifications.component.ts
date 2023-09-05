@@ -3,7 +3,6 @@ import {AuthService} from "../../../services/auth.service";
 import {UserService} from "../../../services/user.service";
 import {Certification} from "../../../model/certification";
 import {CertificationService} from "../../../services/certification.service";
-import {Form} from "@angular/forms";
 import {MessageService} from "primeng/api";
 import {User} from "../../../model/user";
 
@@ -13,8 +12,7 @@ import {User} from "../../../model/user";
   styleUrls: ['./certifications.component.scss']
 })
 export class CertificationsComponent implements OnInit{
-  @Input() user: User = {Certifications: [], GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
-
+  @Input() user: User = {WorkExperiences: [], Certifications: [], GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
   certificateModel: any = {};
   dialogVisible: boolean = false;
 
