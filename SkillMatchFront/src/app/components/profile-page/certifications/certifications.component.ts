@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
-import {AuthService} from "../../services/auth.service";
-import {UserService} from "../../services/user.service";
-import {Certification} from "../../model/certification";
-import {CertificationService} from "../../services/certification.service";
+import {Component, Input, OnInit} from '@angular/core';
+import {AuthService} from "../../../services/auth.service";
+import {UserService} from "../../../services/user.service";
+import {Certification} from "../../../model/certification";
+import {CertificationService} from "../../../services/certification.service";
 import {Form} from "@angular/forms";
 import {MessageService} from "primeng/api";
+import {User} from "../../../model/user";
 
 @Component({
   selector: 'app-certifications',
@@ -12,6 +13,8 @@ import {MessageService} from "primeng/api";
   styleUrls: ['./certifications.component.scss']
 })
 export class CertificationsComponent implements OnInit{
+  @Input() user: User = {Certifications: [], GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+
   certificateModel: any = {};
   dialogVisible: boolean = false;
 
@@ -38,6 +41,8 @@ export class CertificationsComponent implements OnInit{
     const file = this.certificateModel.file;
     this.certificationService.uploadCertification(data, file, this.authService.getUsername()).then(r => {
       this.messageService.add({severity:'success', summary:'Success', detail:'Certificate uploaded'})
+      this.dialogVisible = false;
+      this.certificateModel = {}
     })
   }
 
@@ -51,9 +56,7 @@ export class CertificationsComponent implements OnInit{
   }
 
   async ngOnInit() {
-    const username = await this.authService.getUsername()
-    const user = await this.userService.getUserByName(username)
-    this.certifications = user?.Certifications.map((cert: Certification) => {
+    this.certifications = this.user.Certifications.map((cert: Certification) => {
       return{
         Name: cert.Name,
         Issuer: cert.Issuer,

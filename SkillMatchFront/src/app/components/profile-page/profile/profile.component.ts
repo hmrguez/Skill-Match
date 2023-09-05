@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
-import {Repo, User} from "../../model/user";
-import {UserService} from "../../services/user.service";
+import {Component, Input, OnInit} from '@angular/core';
+import {Repo, User} from "../../../model/user";
+import {UserService} from "../../../services/user.service";
 import {MessageService} from "primeng/api";
 import {ActivatedRoute} from "@angular/router";
 
@@ -10,31 +10,22 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit{
-  githubProfile!: string;
-  user: User = { Certifications: [], GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() githubProfile: string = '';
+  @Input() user: User = { Certifications: [], GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() data: Repo[] = [];
 
   editingGitHub: boolean = false
 
   cols!: ({ field: string; header: string })[];
-  data!: Repo[];
+  openTab: any = 0;
 
   constructor(private userService: UserService, private messageService: MessageService, private route: ActivatedRoute) { }
 
   async ngOnInit(): Promise<void> {
-    this.route.paramMap.subscribe((params) => {
-      const username = params.get('username')!;
-      this.userService.getUserByName(username).then(user => {
-        this.user = user
-        this.githubProfile = this.user.GithubProfile
-        this.data = this.user.GithubRepos
-      })
-    });
-
     this.cols = [
       { field: 'Name', header: 'Name' },
       { field: 'Description', header: 'Description' },
     ];
-
   }
 
   startEditingGitHub() {

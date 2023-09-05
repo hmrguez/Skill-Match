@@ -32,7 +32,7 @@ export class AuthService {
     this.router.navigate(['/login'])
   }
 
-  getUsername() {
+  getUsername(): string {
     const token = this.jwtService.getToken();
     return this.jwtService.decodeToken(token || '')?.username
   }

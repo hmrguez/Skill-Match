@@ -1,0 +1,19 @@
+<p-tabView [(activeIndex)]="openTab">
+  <p-tabPanel header="Profile"></p-tabPanel>
+  <p-tabPanel header="Skills"></p-tabPanel>
+  <p-tabPanel header="Certifications"></p-tabPanel>
+  <p-tabPanel header="Work Experiences"></p-tabPanel>
+</p-tabView>
+
+<div *ngIf="openTab==0">
+  <app-profile [user]="user" [githubProfile]="user.GithubProfile" [data]="user.GithubRepos"></app-profile>
+</div>
+<div *ngIf="openTab==1">
+  <app-skills [user]="user"></app-skills>
+</div>
+<div *ngIf="openTab==2">
+  <app-certifications [user]="user"></app-certifications>
+</div>
+<div *ngIf="openTab==3">
+
+</div>

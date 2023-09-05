@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { BodyComponent } from './components/body/body.component';
 import { SidenavComponent } from './components/sidenav/sidenav.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { SkillsComponent } from './components/skills/skills.component';
+import { SkillsComponent } from './components/profile-page/skills/skills.component';
 import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
 import {RatingModule} from "primeng/rating";
@@ -20,7 +20,7 @@ import {JWT_OPTIONS, JwtHelperService, JwtModule} from "@auth0/angular-jwt";
 import {ToastModule} from "primeng/toast";
 import {ConfirmationService, MessageService} from "primeng/api";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileComponent } from './components/profile-page/profile/profile.component';
 import {ButtonModule} from "primeng/button";
 import {InputTextModule} from "primeng/inputtext";
 import {TreeTableModule} from "primeng/treetable";
@@ -35,7 +35,8 @@ import { JobDetailsComponent } from './components/job-details/job-details.compon
 import {BadgeModule} from "primeng/badge";
 import {ChipsModule} from "primeng/chips";
 import {FileUploadModule} from "primeng/fileupload";
-import { CertificationsComponent } from './components/certifications/certifications.component';
+import { CertificationsComponent } from './components/profile-page/certifications/certifications.component';
+import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 
 function jwtOptionsFactory() {
   return {
@@ -57,6 +58,7 @@ function jwtOptionsFactory() {
     JobsComponent,
     JobDetailsComponent,
     CertificationsComponent,
+    ProfilePageComponent,
   ],
   imports: [
     // Jwt

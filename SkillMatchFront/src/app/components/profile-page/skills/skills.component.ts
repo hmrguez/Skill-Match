@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Skill} from "../../model/skill";
-import {User} from "../../model/user";
-import {SkillSource} from "../../model/skillSource";
-import {UserService} from "../../services/user.service";
-import {getRankInfoFromXP} from "../../data/rank";
-import {AuthService} from "../../services/auth.service";
+import {Component, Input, OnInit} from '@angular/core';
+import {Skill} from "../../../model/skill";
+import {User} from "../../../model/user";
+import {SkillSource} from "../../../model/skillSource";
+import {UserService} from "../../../services/user.service";
+import {getRankInfoFromXP} from "../../../data/rank";
+import {AuthService} from "../../../services/auth.service";
 
 interface Column {
   field: string;
@@ -17,7 +17,7 @@ interface Column {
   styleUrls: ['./skills.component.scss']
 })
 export class SkillsComponent implements OnInit{
-  user!: User
+  @Input() user: User = {Certifications: [], GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
   headerArray: Column[] = [];
   skillArray: Skill[] = [];
 
