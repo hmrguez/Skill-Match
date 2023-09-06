@@ -9,10 +9,10 @@ type SkillSource struct {
 	Skills map[string]int `bson:"skills"`
 }
 
-type Repo struct {
-	Name        string        `bson:"name"`
-	Description string        `bson:"description"`
-	Languages   LanguageStats `bson:"languages"`
+type Project struct {
+	Name        string   `bson:"name"`
+	Description string   `bson:"description"`
+	Skills      []string `bson:"Skills"`
 }
 
 type Certification struct {
@@ -35,8 +35,8 @@ type User struct {
 	ID              primitive.ObjectID `bson:"_id,omitempty"`
 	Name            string             `bson:"name"`
 	Email           string             `bson:"email"`
+	Projects        []Project          `bson:"projects"`
 	GithubProfile   string             `bson:"githubProfile"`
-	GithubRepos     []Repo             `bson:"githubRepos"`
 	Certifications  []Certification    `bson:"certifications"`
 	HashedPassword  string             `bson:"hashedPassword"`
 	SkillSources    []SkillSource      `bson:"skillSources"`

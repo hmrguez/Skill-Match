@@ -122,39 +122,30 @@ func fetchRepoDescription(username string, repoName string, token string) (strin
 	return description, nil
 }
 
-func getTotalLanguageStats(username string, token string) (Models.LanguageStats, []Models.Repo, error) {
+func getTotalLanguageStats(username string, token string) (Models.LanguageStats, error) {
 	repoNames, err := fetchUserRepositories(username, token)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	totalStats := make(Models.LanguageStats)
-	repos := make([]Models.Repo, 0)
 
 	for _, repoName := range repoNames {
 		stats, err := fetchLanguageStats(username, repoName, token)
 		if err != nil {
-			return nil, nil, err
+			return nil, err
 		}
-
-		// Fetch the repository description
-		description, err := fetchRepoDescription(username, repoName, token)
-		if err != nil {
-			return nil, nil, err
-		}
-
-		repos = append(repos, Models.Repo{Name: repoName, Description: description, Languages: stats})
 
 		for lang, bytes := range stats {
 			totalStats[lang] += bytes / 50
 		}
 	}
 
-	return totalStats, repos, nil
+	return totalStats, nil
 }
 
 func AttachGithubStatsToUser(user *Models.User, token string) {
-	totalStats, repos, err := getTotalLanguageStats(user.GithubProfile, token)
+	totalStats, err := getTotalLanguageStats(user.GithubProfile, token)
 
 	if err != nil {
 		panic(err)
@@ -176,6 +167,4 @@ func AttachGithubStatsToUser(user *Models.User, token string) {
 	} else {
 		user.SkillSources = append(user.SkillSources, Models.SkillSource{Name: "Github", Skills: totalStats})
 	}
-
-	user.GithubRepos = repos
 }

@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Repo, User} from "../../../model/user";
+import {Project, User} from "../../../model/user";
 import {UserService} from "../../../services/user.service";
 import {MessageService} from "primeng/api";
 import {ActivatedRoute} from "@angular/router";
@@ -11,8 +11,8 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ProfileComponent implements OnInit{
   @Input() githubProfile: string = '';
-  @Input() user: User = {Email: '',WorkExperiences: [], Certifications: [], GithubProfile: "", GithubRepos: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
-  @Input() data: Repo[] = [];
+  @Input() user: User = {Email: '',WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() data: Project[] = [];
 
   editingGitHub: boolean = false
 

@@ -6,7 +6,7 @@
 </p-tabView>
 
 <div *ngIf="openTab==0">
-  <app-profile [user]="user" [githubProfile]="user.GithubProfile" [data]="user.GithubRepos"></app-profile>
+  <app-profile [user]="user" [githubProfile]="user.GithubProfile" [data]="user.Projects"></app-profile>
 </div>
 <div *ngIf="openTab==1">
   <app-skills [user]="user"></app-skills>

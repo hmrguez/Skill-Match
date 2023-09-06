@@ -1,11 +1,11 @@
 import {SkillSource} from "./skillSource";
 import {Certification} from "./certification";
 
-export interface Repo {
+export interface Project {
   Name: string;
   Description: string
   Url: string
-  LanguageStats: Map<string, number>;
+  Skills: string[];
 }
 
 export interface WorkExperience {
@@ -20,7 +20,7 @@ export interface User {
   Name: string;
   Email: string;
   GithubProfile: string
-  GithubRepos: Repo[]
+  Projects: Project[]
   Certifications: Certification[]
   SkillSources: SkillSource[];
   TotalSkills: Map<string, number>;
