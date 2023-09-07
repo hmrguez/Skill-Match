@@ -11,6 +11,7 @@ type SkillSource struct {
 
 type Project struct {
 	Name        string   `bson:"name"`
+	Url         string   `bson:"url"`
 	Description string   `bson:"description"`
 	Skills      []string `bson:"Skills"`
 }

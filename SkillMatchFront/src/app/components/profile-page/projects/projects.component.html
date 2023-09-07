@@ -1,0 +1,53 @@
+<p-card>
+  <p-toolbar styleClass="mb-4">
+    <ng-template pTemplate="left">
+      <button pButton pRipple label="New project" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
+    </ng-template>
+  </p-toolbar>
+
+  <p-table [columns]="cols" [value]="data" responsiveLayout="scroll">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th *ngFor="let col of columns">
+          {{col.header}}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr>
+        <td *ngFor="let col of columns">
+          <div *ngIf="col.field == 'Skills' "><p-chips [disabled]="true" [ngModel]="rowData.Skills"></p-chips></div>
+          <div *ngIf="col.field != 'Skills' ">{{rowData[col.field]}}</div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</p-card>
+
+<p-dialog [draggable]="false" [modal]="true" [(visible)]="dialogVisible">
+  <form #form="ngForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+    <div class="p-fluid">
+      <div class="p-field">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" pInputText [(ngModel)]="model.Name" required>
+      </div>
+      <div class="p-field">
+        <label for="description">Description</label>
+        <input type="text" id="description" name="description" pInputText [(ngModel)]="model.Description" required>
+      </div>
+      <div class="p-field">
+        <label for="url">Url</label>
+        <input type="text" id="url" name="url" pInputText [(ngModel)]="model.Url" required>
+        
+      </div>
+      <div class="p-field">
+        <label for="skills">Skills</label>
+        <p-chips id="skills" name="skills" [(ngModel)]="model.Skills"></p-chips>
+      </div>
+      <div class="p-field">
+        <button type="submit" pButton label="Submit" [disabled]="!form.valid"></button>
+      </div>
+    </div>
+  </form>
+</p-dialog>
+

@@ -3,6 +3,7 @@
   <p-tabPanel header="Skills"></p-tabPanel>
   <p-tabPanel header="Certifications"></p-tabPanel>
   <p-tabPanel header="Work Experiences"></p-tabPanel>
+  <p-tabPanel header="Projects"></p-tabPanel>
 </p-tabView>
 
 <div *ngIf="openTab==0">
@@ -16,4 +17,7 @@
 </div>
 <div *ngIf="openTab==3">
   <app-experience [user]="user" [data]="user.WorkExperiences"></app-experience>
+</div>
+<div *ngIf="openTab==4">
+  <app-projects [user]="user" [data]="user.Projects"></app-projects>
 </div>

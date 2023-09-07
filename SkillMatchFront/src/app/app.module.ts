@@ -39,6 +39,7 @@ import { CertificationsComponent } from './components/profile-page/certification
 import { ProfilePageComponent } from './components/profile-page/profile-page.component';
 import { ExperienceComponent } from './components/profile-page/experience/experience.component';
 import {CalendarModule} from "primeng/calendar";
+import {ProjectsComponent} from "./components/profile-page/projects/projects.component";
 
 function jwtOptionsFactory() {
   return {
@@ -62,6 +63,7 @@ function jwtOptionsFactory() {
     CertificationsComponent,
     ProfilePageComponent,
     ExperienceComponent,
+    ProjectsComponent
   ],
   imports: [
     // Jwt
