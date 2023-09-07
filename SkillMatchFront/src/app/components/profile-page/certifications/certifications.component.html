@@ -5,7 +5,7 @@
     </ng-template>
   </p-toolbar>
 
-  <p-table [columns]="cols" [value]="certifications" *ngIf="certifications.length > 0" responsiveLayout="scroll">
+  <p-table [columns]="cols" [value]="certifications" *ngIf="certifications?.length ?  certifications.length > 0 : false" responsiveLayout="scroll">
     <ng-template pTemplate="caption">
       <div class="flex align-items-center justify-content-between">
         Certifications

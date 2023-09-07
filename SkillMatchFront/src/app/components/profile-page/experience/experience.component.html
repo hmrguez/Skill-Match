@@ -7,7 +7,7 @@
   </p-toolbar>
 
   <ng-template pTemplate="body">
-    <p-table [columns]="cols" [value]="data" *ngIf="data.length > 0" responsiveLayout="scroll">
+    <p-table [columns]="cols" [value]="data" *ngIf="data?.length ?  data.length > 0 : false" responsiveLayout="scroll">
       <ng-template pTemplate="caption">
         <div class="flex align-items-center justify-content-between">
           Experiences

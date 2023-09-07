@@ -30,6 +30,7 @@ export class CertificationsComponent implements OnInit{
   }
 
   onSubmit(formData: any) {
+
     const data = {
       Name: this.certificateModel.Name,
       Issuer: this.certificateModel.Issuer,
@@ -63,6 +64,8 @@ export class CertificationsComponent implements OnInit{
         Skills: Object.keys(cert.Skills)
       }
     })
+
+    console.log("Certifications loaded")
   }
 
   createFormData(input: any): FormData {

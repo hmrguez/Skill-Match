@@ -11,7 +11,7 @@
     <app-profile [loggedInUser]="user.Name === loggedInUsername" [user]="user" [githubProfile]="user.GithubProfile" [data]="user.Projects"></app-profile>
   </div>
   <div *ngIf="openTab==1">
-    <app-skills  [user]="user"></app-skills>
+    <app-skills [user]="user"></app-skills>
   </div>
   <div *ngIf="openTab==2">
     <app-certifications [loggedInUser]="user.Name === loggedInUsername" [user]="user"></app-certifications>
