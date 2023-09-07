@@ -11,38 +11,35 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class ProfileComponent implements OnInit{
   @Input() githubProfile: string = '';
-  @Input() user: User = {Email: '',WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() user: User = {Email: '', Summary:'', WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
   @Input() data: Project[] = [];
 
-  editingGitHub: boolean = false
-
-  cols!: ({ field: string; header: string })[];
-  openTab: any = 0;
+  editing: boolean = false
+  editModel: any = {}
 
   constructor(private userService: UserService, private messageService: MessageService, private route: ActivatedRoute) { }
 
   async ngOnInit(): Promise<void> {
-    this.cols = [
-      { field: 'Name', header: 'Name' },
-      { field: 'Description', header: 'Description' },
-    ];
+    this.editModel = {...this.user}
   }
 
-  startEditingGitHub() {
-    this.editingGitHub = true
-  }
-
-  saveGitHubChanges() {
-    this.user.GithubProfile = this.githubProfile
-    this.userService.updateUser(this.user.Name, this.user).then(r =>
+  saveChanges() {
+    this.userService.updateUser(this.user.Name, this.editModel).then(r =>
       {
-        this.messageService.add({severity:'success', summary:'Success', detail:'GitHub profile updated'})
+        this.messageService.add({severity:'success', summary:'Success', detail:'Profile updated'})
+        this.user = this.editModel
+        this.editing = false
       }
     )
   }
 
-  cancelEditingGitHub() {
-    this.githubProfile = this.user.GithubProfile;
-    this.editingGitHub = false
+  cancelEditing() {
+    this.editing = false
+    this.editModel = { ... this.user}
+  }
+
+  startEditing() {
+    this.editModel = {...this.user}
+    this.editing = true
   }
 }

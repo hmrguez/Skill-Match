@@ -1,42 +1,59 @@
-<p-card class="user-profile-card">
-  <ng-template pTemplate="body" class="profile-content">
-    <div class="profile-field mb-4 row">
-      <h4 class="col-2">Username:</h4>
-      <h3 class="col-2">{{ user.Name }}</h3>
-    </div>
-    <div class="profile-field">
-      <div class="row">
-        <label class="col-1">GitHub Profile:</label>
-        <input class="col-2" pInputText id="username" [(ngModel)]="githubProfile" [disabled]="!editingGitHub" />
-        <button class="col-1" pButton *ngIf="!editingGitHub" (click)="startEditingGitHub()">Edit</button>
-        <button pButton class="col-1" *ngIf="editingGitHub" (click)="saveGitHubChanges()">Save</button>
-        <button pButton  class="col-1" *ngIf="editingGitHub" (click)="cancelEditingGitHub()">Cancel</button>
-      </div>
-    </div>
-  </ng-template>
-</p-card>
 
-<p-card>
-  <ng-template pTemplate="header">
-    <h2 class="p-5">User Projects</h2>
-  </ng-template>
-  <ng-template pTemplate="body">
-    <p-table [columns]="cols" [value]="data" responsiveLayout="scroll">
-      <ng-template pTemplate="header" let-columns>
-        <tr>
-          <th *ngFor="let col of columns">
-            {{col.header}}
-          </th>
-        </tr>
+<!--Personal Info card-->
+<div class="personal-info">
+  <div class="col-2">
+    <p-card [style]="{width: '360px', height: '100%', 'margin-top': '.5rem'}">
+      <ng-template pTemplate="header">
+        <p-image src="../../../assets/galleria1.jpg" alt="Profile" width="250" [preview]="true"></p-image>
+        <h1 class="mt-4 ms-5">{{ user.Name }}</h1>
       </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
-        <tr>
-          <td *ngFor="let col of columns">
-            {{rowData[col.field]}}
-          </td>
-        </tr>
+      <ng-template pTemplate="body">
+        <div class="align-items-center ms-3 big-text">
+          <span><i class="pi pi-user"></i></span>
+          <p *ngIf="!editing" class="d-inline ms-4">{{ user.Name}}</p>
+          <input *ngIf="editing" type="text" pInputText placeholder="Username" class="ms-4" [(ngModel)]="editModel.Name">
+        </div>
+        <div class="align-items-center ms-3 mt-2 big-text">
+          <span><i class="pi pi-github"></i></span>
+          <p *ngIf="!editing" class="d-inline ms-4">{{ user.GithubProfile }}</p>
+          <input *ngIf="editing" type="text" pInputText placeholder="Username" class="ms-4" [(ngModel)]="editModel.GithubProfile">
+        </div>
+        <div class="align-items-center ms-3 mt-2 big-text">
+          <span><i class="pi pi-envelope"></i></span>
+          <p *ngIf="!editing" class="d-inline ms-4">{{ user.Email }}</p>
+          <input *ngIf="editing" type="text" pInputText placeholder="Username" class="ms-4" [(ngModel)]="editModel.Email">
+        </div>
       </ng-template>
-    </p-table>
+      <ng-template pTemplate="footer">
+        <div class="row justify-content-between m-3">
+          <button *ngIf="!editing" pButton label="Edit" class="mt-3" (click)="startEditing()"></button>
+          <button *ngIf="editing" pButton label="Save" class="mt-3 col-6" (click)="saveChanges()"></button>
+          <button *ngIf="editing" pButton label="Cancel" class="mt-3 col-6" (click)="cancelEditing()"></button>
+        </div>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
 
-  </ng-template>
-</p-card>
+<!--Summary and skills card-->
+<div class="row row-cols-2 skills-grid mt-2">
+  <p-card [styleClass]="">
+    <ng-template pTemplate="header">
+      <h1 class="text-center p-4 pb-1">Summary</h1>
+    </ng-template>
+    <ng-template pTemplate="body">
+      <p *ngIf="!editing" class="big-text">{{ user.Summary }}</p>
+      
+      <textarea *ngIf="editing" pInputTextarea [(ngModel)]="editModel.Summary" rows="5" cols="30" [style]="{width: '100%'}"></textarea>
+    </ng-template>
+  </p-card>
+  <p-card>
+    <ng-template pTemplate="header">
+      <h1>Summary</h1>
+    </ng-template>
+    <ng-template pTemplate="body">
+      <p *ngIf="!editing" class="big-text">{{ user.Name }}</p>
+      <textarea *ngIf="editing" pInputTextarea [(ngModel)]="editModel.Summary" rows="5" cols="30"></textarea>
+    </ng-template>
+  </p-card>
+</div>

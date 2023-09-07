@@ -10,8 +10,10 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./profile-page.component.scss']
 })
 export class ProfilePageComponent implements OnInit{
-  user: User = { Email: '',WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  user: User = { Email: '', Summary:'',WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
   openTab: number = 0;
+  loggedInUsername: string = '';
+
 
   constructor(private userService: UserService, private authService: AuthService, private route: ActivatedRoute) {
     this.userService.getUserByName(this.authService.getUsername()).then(user=>{
@@ -20,6 +22,7 @@ export class ProfilePageComponent implements OnInit{
   }
 
   async ngOnInit(): Promise<void> {
+    this.loggedInUsername = this.authService.getUsername()
     this.route.paramMap.subscribe((params) => {
       const username = params.get('username')!;
       this.userService.getUserByName(username).then(user => {

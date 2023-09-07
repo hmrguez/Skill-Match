@@ -36,6 +36,7 @@ type User struct {
 	ID              primitive.ObjectID `bson:"_id,omitempty"`
 	Name            string             `bson:"name"`
 	Email           string             `bson:"email"`
+	Summary         string             `bson:"summary"`
 	Projects        []Project          `bson:"projects"`
 	GithubProfile   string             `bson:"githubProfile"`
 	Certifications  []Certification    `bson:"certifications"`
