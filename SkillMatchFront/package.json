@@ -20,6 +20,7 @@
     "@angular/router": "^16.2.0",
     "@auth0/angular-jwt": "^5.1.2",
     "bootstrap": "^5.3.1",
+    "chart.js": "^4.4.0",
     "primeicons": "^6.0.1",
     "primeng": "^16.2.0",
     "rxjs": "~7.8.0",

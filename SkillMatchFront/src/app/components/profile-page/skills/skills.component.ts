@@ -5,6 +5,7 @@ import {SkillSource} from "../../../model/skillSource";
 import {UserService} from "../../../services/user.service";
 import {getRankInfoFromXP} from "../../../data/rank";
 import {AuthService} from "../../../services/auth.service";
+import {objectToMap} from "../../../helper/objectToMap";
 
 interface Column {
   field: string;
@@ -17,7 +18,7 @@ interface Column {
   styleUrls: ['./skills.component.scss']
 })
 export class SkillsComponent implements OnInit{
-  @Input() user: User = {Email: '', Summary:'',WorkExperiences: [],Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() user: User = {Email: '', Streak: 0, Summary:'',WorkExperiences: [],Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
   headerArray: Column[] = [];
   skillArray: Skill[] = [];
 
@@ -40,11 +41,11 @@ export class SkillsComponent implements OnInit{
 
     const skillSources: SkillSource[] = user.SkillSources;
 
-    user.TotalSkills = this.objectToMap(user.TotalSkills)
+    user.TotalSkills = objectToMap(user.TotalSkills)
     for (let i = 0; i < user.SkillSources.length; i++) {
       user.SkillSources[i] = {
         Name: user.SkillSources[i].Name,
-        Skills: this.objectToMap(user.SkillSources[i].Skills)
+        Skills: objectToMap(user.SkillSources[i].Skills)
       }
     }
 
@@ -78,15 +79,5 @@ export class SkillsComponent implements OnInit{
     return [columns, skills];
   }
 
-  objectToMap(obj: Record<string, any>): Map<string, number> {
-    const map = new Map<string, number>();
 
-    for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
-        map.set(key, obj[key]);
-      }
-    }
-
-    return map;
-  }
 }

@@ -9,11 +9,12 @@ import {MessageService} from "primeng/api";
   styleUrls: ['./experience.component.scss']
 })
 export class ExperienceComponent {
-  @Input() user: User = {Email: '', Summary:'', WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() user: User = {Email: '', Streak: 0, Summary:'', WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
   @Input() data: any[] = [];
   cols: any[] = [];
   dialogVisible: boolean = false;
   model: WorkExperience = {Company: "", Description: "", EndDate: "", StartDate: "", Title: ""}
+  @Input() loggedInUser: boolean = false
 
   constructor(private userService: UserService, private messageService: MessageService) {
     this.cols = [

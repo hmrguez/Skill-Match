@@ -34,4 +34,24 @@ body{
 .skills-grid{
   margin-left: 380px;
   margin-right: 25px;
+  height: fit-content;
+  display: flex;
+}
+
+.top-three-skills{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: larger;
+}
+
+.rest-skills{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.streak{
+  padding-right: 10rem
 }

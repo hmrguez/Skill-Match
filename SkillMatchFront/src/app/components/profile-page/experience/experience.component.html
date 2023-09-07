@@ -1,13 +1,18 @@
 <p-card>
 
-  <p-toolbar styleClass="mb-4">
+  <p-toolbar *ngIf="loggedInUser" styleClass="mb-4">
     <ng-template pTemplate="left">
       <button pButton pRipple label="New work experience" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNew()"></button>
     </ng-template>
   </p-toolbar>
 
   <ng-template pTemplate="body">
-    <p-table [columns]="cols" [value]="data" responsiveLayout="scroll">
+    <p-table [columns]="cols" [value]="data" *ngIf="data.length > 0" responsiveLayout="scroll">
+      <ng-template pTemplate="caption">
+        <div class="flex align-items-center justify-content-between">
+          Experiences
+        </div>
+      </ng-template>
       <ng-template pTemplate="header" let-columns>
         <tr>
           <th *ngFor="let col of columns">

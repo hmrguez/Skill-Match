@@ -41,6 +41,9 @@ import { ExperienceComponent } from './components/profile-page/experience/experi
 import {CalendarModule} from "primeng/calendar";
 import {ProjectsComponent} from "./components/profile-page/projects/projects.component";
 import {ImageModule} from "primeng/image";
+import {ChipModule} from "primeng/chip";
+import {ChartModule} from "primeng/chart";
+import {KnobModule} from "primeng/knob";
 
 function jwtOptionsFactory() {
   return {
@@ -66,24 +69,24 @@ function jwtOptionsFactory() {
     ExperienceComponent,
     ProjectsComponent
   ],
-  imports: [
-    // Jwt
-    JwtModule.forRoot({
-      jwtOptionsProvider: {
-        provide: JWT_OPTIONS,
-        useFactory: jwtOptionsFactory,
-        deps: [],
-      },
-    }),
+    imports: [
+        // Jwt
+        JwtModule.forRoot({
+            jwtOptionsProvider: {
+                provide: JWT_OPTIONS,
+                useFactory: jwtOptionsFactory,
+                deps: [],
+            },
+        }),
 
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        HttpClientModule,
 
-    // Primeng
-    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule, TreeTableModule, ToolbarModule, InputNumberModule, DialogModule, RippleModule, DropdownModule, TabMenuModule, BadgeModule, ChipsModule, FileUploadModule, CalendarModule, ImageModule
-  ],
+        // Primeng
+        TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule, TreeTableModule, ToolbarModule, InputNumberModule, DialogModule, RippleModule, DropdownModule, TabMenuModule, BadgeModule, ChipsModule, FileUploadModule, CalendarModule, ImageModule, ChipModule, ChartModule, KnobModule
+    ],
   providers: [JwtHelperService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })

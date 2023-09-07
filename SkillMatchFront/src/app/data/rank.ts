@@ -92,3 +92,20 @@ export function findXpForRanks(rankName1: string, rankName2: string): [number, n
     return [xp1, -1]; // Grandmaster reached, no next rank
   }
 }
+
+export function getSkillRanks(skillMap: Map<string, number>): [string, number, Rank][] {
+  // Step 1: Convert the input Map to an array of [string, number] pairs
+  const skillArray: [string, number][] = [];
+  for (const skillArrayElement of skillMap) {
+    skillArray.push([skillArrayElement[0], skillArrayElement[1]])
+  }
+
+  // Step 2: Sort the array by XP in descending order
+  skillArray.sort((a, b) => b[1] - a[1]);
+
+  // Step 3 and 4: Calculate Rank information for each skill and create the result array
+  return skillArray.map(([skill, xp]) => {
+    const rankInfo = getRankInfoFromXP(xp);
+    return [skill, xp, rankInfo.currentRank];
+  });
+}

@@ -43,17 +43,60 @@
     </ng-template>
     <ng-template pTemplate="body">
       <p *ngIf="!editing" class="big-text">{{ user.Summary }}</p>
-      
-      <textarea *ngIf="editing" pInputTextarea [(ngModel)]="editModel.Summary" rows="5" cols="30" [style]="{width: '100%'}"></textarea>
+
+      <textarea *ngIf="editing" pInputTextarea [(ngModel)]="editModel.Summary" rows="5" cols="30" [style]="{width: '100%', 'padding': '15px', 'border-radius':'5px'}"></textarea>
     </ng-template>
   </p-card>
   <p-card>
     <ng-template pTemplate="header">
-      <h1>Summary</h1>
+      <h1 class="text-center p-4 pb-1">Skills</h1>
     </ng-template>
     <ng-template pTemplate="body">
-      <p *ngIf="!editing" class="big-text">{{ user.Name }}</p>
-      <textarea *ngIf="editing" pInputTextarea [(ngModel)]="editModel.Summary" rows="5" cols="30"></textarea>
+      <div class="top-three-skills">
+        <p-chip *ngFor="let skill of topThreeSkills" class="mb-3">
+          <h4 class="p-3">{{skill[0]}}</h4>
+        </p-chip>
+      </div>
+      <div class="rest-skills">
+        <p-chip *ngFor="let skill of restOfSkills" [label]="skill[0]"></p-chip>
+      </div>
     </ng-template>
   </p-card>
 </div>
+
+<!--Spider Graph and streak-->
+
+<div class="row row-cols-2 skills-grid mt-2 mb-3">
+  <p-card [styleClass]="">
+    <ng-template pTemplate="header">
+      <h1 class="text-center pt-4">Evaluation</h1>
+    </ng-template>
+    <ng-template pTemplate="body">
+      <div class="p-grid p-0">
+        <div class="p-col-12 p-0 m-0">
+          <p-chart type="radar" [data]="graphData" [width]="'100%'" [height]="'400px'" [options]="graphOptions" class="m-0"></p-chart>
+        </div>
+      </div>
+    </ng-template>
+  </p-card>
+  <p-card>
+    <ng-template pTemplate="header">
+      <h1 class="text-center p-4 pb-1">Streak</h1>
+    </ng-template>
+    <ng-template pTemplate="body">
+      <div class="row row-cols-6 row-gap-4 justify-content-around streak">
+        <div class="text-center">
+          <h4 class="mb-3">Longest</h4>
+          <h2 class="text-center">5</h2>
+        </div>
+        <div>
+          <p-knob [(ngModel)]="user.Streak" [readonly]="true" [size]="200"></p-knob>
+        </div>
+      </div>
+    </ng-template>
+  </p-card>
+</div>
+
+<app-projects [loggedInUser]="loggedInUser" [user]="user" [data]="user.Projects"></app-projects>
+<app-experience [loggedInUser]="loggedInUser" [user]="user" [data]="user.WorkExperiences"></app-experience>
+<app-certifications [loggedInUser]="loggedInUser" [user]="user"></app-certifications>
