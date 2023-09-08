@@ -50,6 +50,14 @@ func main() {
 	r.POST("/certifications/:username", Controllers.CreateCertification)
 	r.POST("/certifications/upload/:username", Controllers.UploadCertification)
 
+	// Questions
+	r.GET("/question", Controllers.GetAllQuestions)
+	r.POST("/question/search", Controllers.SearchQuestions)
+	r.POST("/question", Controllers.CreateQuestion)
+	r.GET("/question/:id", Controllers.GetQuestionByID)
+	r.PUT("/question/:id", Controllers.UpdateQuestion)
+	r.DELETE("/question/:id", Controllers.DeleteQuestion)
+
 	err := r.Run(":7000")
 	if err != nil {
 		panic("Server was not able to start")

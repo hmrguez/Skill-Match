@@ -11,6 +11,7 @@ import (
 var UserService *Services.UserService
 var JobService *Services.JobService
 var EmailService *Services.EmailService
+var QuestionService *Services.QuestionService
 
 func SetupServices() {
 	connectionString := os.Getenv("DB_CONNECTION_STRING")
@@ -26,5 +27,6 @@ func SetupServices() {
 	database := client.Database(databaseName)
 	UserService = Services.NewUserService(database)
 	JobService = Services.NewJobService(database)
+	QuestionService = Services.NewQuestionService(database)
 	EmailService = Services.NewEmailService()
 }
