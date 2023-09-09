@@ -101,3 +101,41 @@ func (s *UserService) DeleteUser(ctx context.Context, name string) error {
 	}
 	return err
 }
+
+func (s *UserService) DailyChallengeCompleted(background context.Context, username string, skill string) error {
+	var user Models.User
+
+	fmt.Printf("Username: %s, Skill %s", username, skill)
+
+	err := s.collection.FindOne(background, bson.M{"name": username}).Decode(&user)
+	if err != nil {
+		log.Println("Failed to get user:", err)
+	}
+
+	user.DailyChallenge = true
+
+	for i, skillSource := range user.SkillSources {
+		if skillSource.Name == "Daily Challenge" {
+
+			if val, ok := skillSource.Skills[skill]; ok {
+				skillSource.Skills[skill] = val + 10
+			} else {
+				skillSource.Skills[skill] = 10
+			}
+
+			break
+		} else if i == len(user.SkillSources)-1 {
+			fmt.Printf("Not found")
+
+			user.SkillSources = append(user.SkillSources, Models.SkillSource{
+				Name: "Daily Challenge",
+				Skills: map[string]int{
+					skill: 10,
+				},
+			})
+		}
+	}
+
+	err = s.UpdateUser(background, username, user)
+	return err
+}

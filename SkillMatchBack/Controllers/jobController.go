@@ -3,7 +3,6 @@ package Controllers
 import (
 	"SkillMatchBack/Data/Models"
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -112,8 +111,6 @@ func SearchJobs(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search jobs"})
 		return
 	}
-
-	fmt.Printf("Result: %v\n", jobs)
 
 	c.JSON(http.StatusOK, jobs)
 }

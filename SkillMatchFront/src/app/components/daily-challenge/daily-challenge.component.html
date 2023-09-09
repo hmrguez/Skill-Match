@@ -1,0 +1,10 @@
+<div *ngIf="user.DailyChallenge == false">
+  <div *ngIf="question === undefined">
+    <p-button  *ngFor="let skill of threeRandomSkills" [label]="skill" [icon]="'pi pi-' + skill" (click)="openQuestion(skill)"></p-button>
+  </div>
+
+  <app-question *ngIf="question !== undefined" [user]="user" [question]="question"></app-question>
+</div>
+<div *ngIf="user.DailyChallenge == true">
+  <h2>You have already completed the daily challenge</h2>
+</div>

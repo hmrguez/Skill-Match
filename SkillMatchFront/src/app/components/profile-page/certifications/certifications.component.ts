@@ -12,7 +12,7 @@ import {User} from "../../../model/user";
   styleUrls: ['./certifications.component.scss']
 })
 export class CertificationsComponent implements OnInit{
-  @Input() user: User = {Email: '', Streak: 0, Summary:'', WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() user: User = { DailyChallenge: false, Email: '', Streak: 0, Summary:'', WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
   @Input() loggedInUser: boolean = false
   certificateModel: any = {};
   dialogVisible: boolean = false;
@@ -56,7 +56,7 @@ export class CertificationsComponent implements OnInit{
   }
 
   async ngOnInit() {
-    this.certifications = this.user.Certifications.map((cert: Certification) => {
+    this.certifications = this.user.Certifications?.map((cert: Certification) => {
       return{
         Name: cert.Name,
         Issuer: cert.Issuer,
@@ -64,8 +64,6 @@ export class CertificationsComponent implements OnInit{
         Skills: Object.keys(cert.Skills)
       }
     })
-
-    console.log("Certifications loaded")
   }
 
   createFormData(input: any): FormData {

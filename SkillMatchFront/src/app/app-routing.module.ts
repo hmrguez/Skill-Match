@@ -9,6 +9,7 @@ import {JobsComponent} from "./components/jobs/jobs.component";
 import {JobDetailsComponent} from "./components/job-details/job-details.component";
 import {CertificationsComponent} from "./components/profile-page/certifications/certifications.component";
 import {ProfilePageComponent} from "./components/profile-page/profile-page.component";
+import {DailyChallengeComponent} from "./components/daily-challenge/daily-challenge.component";
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -16,8 +17,8 @@ const routes: Routes = [
   { path: 'profile/:username', canActivate: [AuthGuard], component: ProfilePageComponent },
   { path: 'jobs', canActivate: [AuthGuard], component: JobsComponent },
   { path: 'jobs/details/:id', canActivate: [AuthGuard], component: JobDetailsComponent },
+  { path: 'daily-challenge', canActivate: [AuthGuard], component: DailyChallengeComponent },
   { path: 'login', component: LoginComponent },
-
 ];
 
 @NgModule({

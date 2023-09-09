@@ -1,0 +1,20 @@
+<p-card>
+  <div class="p-card-title">{{ question.Skill }}</div>
+  <div class="p-card-subtitle">{{ question.Question }}</div>
+  <div class="p-card-content">
+    <ul>
+      <li *ngFor="let choice of question.Choices" style="list-style: none">
+        <p-checkbox [value]="choice" [(ngModel)]="selectedChoices" [required]="true"></p-checkbox>
+        {{ choice.toString() }}
+      </li>
+    </ul>
+  </div>
+  <div class="p-card-footer">
+    <button pButton type="button" (click)="submitAnswer()" label="Submit Answer"></button>
+    <div *ngIf="showAnswer" class="answer">
+      Correct Answer: {{ question.Answer }}
+      <br>
+      {{ isCorrect ? 'Correct 🎉🎉' : 'Incorrect 😒😒'}}
+    </div>
+  </div>
+</p-card>

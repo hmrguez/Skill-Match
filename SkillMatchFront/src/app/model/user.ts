@@ -20,6 +20,7 @@ export interface User {
   Streak: number;
   Name: string;
   Email: string;
+  DailyChallenge: boolean;
   Summary: string
   GithubProfile: string
   Projects: Project[]

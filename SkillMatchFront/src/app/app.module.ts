@@ -44,6 +44,9 @@ import {ImageModule} from "primeng/image";
 import {ChipModule} from "primeng/chip";
 import {ChartModule} from "primeng/chart";
 import {KnobModule} from "primeng/knob";
+import { DailyChallengeComponent } from './components/daily-challenge/daily-challenge.component';
+import { QuestionComponent } from './components/daily-challenge/question/question.component';
+import {CheckboxModule} from "primeng/checkbox";
 
 function jwtOptionsFactory() {
   return {
@@ -67,26 +70,28 @@ function jwtOptionsFactory() {
     CertificationsComponent,
     ProfilePageComponent,
     ExperienceComponent,
-    ProjectsComponent
+    ProjectsComponent,
+    DailyChallengeComponent,
+    QuestionComponent
   ],
-    imports: [
-        // Jwt
-        JwtModule.forRoot({
-            jwtOptionsProvider: {
-                provide: JWT_OPTIONS,
-                useFactory: jwtOptionsFactory,
-                deps: [],
-            },
-        }),
+  imports: [
+    // Jwt
+    JwtModule.forRoot({
+      jwtOptionsProvider: {
+        provide: JWT_OPTIONS,
+        useFactory: jwtOptionsFactory,
+        deps: [],
+      },
+    }),
 
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        HttpClientModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
 
-        // Primeng
-        TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule, TreeTableModule, ToolbarModule, InputNumberModule, DialogModule, RippleModule, DropdownModule, TabMenuModule, BadgeModule, ChipsModule, FileUploadModule, CalendarModule, ImageModule, ChipModule, ChartModule, KnobModule
-    ],
+    // Primeng
+    TableModule, TagModule, RatingModule, FormsModule, CardModule, ProgressBarModule, TabViewModule, ToastModule, ButtonModule, InputTextModule, TreeTableModule, ToolbarModule, InputNumberModule, DialogModule, RippleModule, DropdownModule, TabMenuModule, BadgeModule, ChipsModule, FileUploadModule, CalendarModule, ImageModule, ChipModule, ChartModule, KnobModule, CheckboxModule
+  ],
   providers: [JwtHelperService, MessageService, ConfirmationService],
   bootstrap: [AppComponent]
 })

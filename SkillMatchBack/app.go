@@ -33,6 +33,7 @@ func main() {
 	r.GET("/users/:name", Controllers.GetUserByName)
 	r.PUT("/users/:name", Controllers.UpdateUser)
 	r.DELETE("/users/:name", Controllers.DeleteUser)
+	r.PUT("/users/daily-challenge", Controllers.DailyChallengeCompleted)
 
 	// Jobs
 	r.GET("/jobs", Controllers.GetAllJobs)

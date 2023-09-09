@@ -14,7 +14,7 @@ import {objectToMap} from "../../../helper/objectToMap";
 })
 export class ProfileComponent implements OnInit{
   @Input() githubProfile: string = '';
-  @Input() user: User = {Email: '', Streak: 0, Summary:'', WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() user: User = {DailyChallenge: false,Email: '', Streak: 0, Summary:'', WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
   @Input() data: Project[] = [];
   @Input() loggedInUser: boolean = false;
 

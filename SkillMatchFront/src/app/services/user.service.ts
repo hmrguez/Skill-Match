@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {User} from "../model/user";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {Skill} from "../model/skill";
 import {Job, Requirement} from "../model/job";
 
@@ -56,5 +56,13 @@ export class UserService {
 
     }
     return meetsRequirements;
+  }
+
+  async dailyChallengeCompleted(username: string, skill: string): Promise<any> {
+    let params = new HttpParams()
+      .set('username', username)
+      .set('skill', skill)
+
+    return await this.http.put(`${this.baseUrl}/daily-challenge`, params, { params }).toPromise();
   }
 }

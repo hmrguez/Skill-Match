@@ -12,7 +12,7 @@ import {User} from "../../../model/user";
   styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent{
-  @Input() user: User = {Email: '', Streak: 0, Summary:'',  WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() user: User = {DailyChallenge: false,Email: '', Streak: 0, Summary:'',  WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
   @Input() data: any[] = [];
   @Input() loggedInUser: boolean = false;
   model: any = {};
