@@ -2,9 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Project, User} from "../../../model/user";
 import {UserService} from "../../../services/user.service";
 import {MessageService} from "primeng/api";
-import {ActivatedRoute} from "@angular/router";
 import {getSkillRanks, Rank} from "../../../data/rank";
-import {first, max, min, Subscription} from "rxjs";
 import {objectToMap} from "../../../helper/objectToMap";
 
 @Component({
@@ -36,7 +34,7 @@ export class ProfileComponent implements OnInit{
     this.getSkillsData();
 
     this.graphData = {
-        labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
+        labels: ['Versatility', 'Proficiency', 'Learning', 'DevOps', 'Data Science', 'FrontEnd', 'BackEnd'],
         datasets: [
             {
                 label: 'My First dataset',
@@ -46,7 +44,7 @@ export class ProfileComponent implements OnInit{
                 pointBorderColor: '#fff',
                 pointHoverBackgroundColor: '#fff',
                 pointHoverBorderColor: 'rgba(179,181,198,1)',
-                data: [2, 3, 3, 4, 1, 5, 6]
+                data: this.getSpiderGraphData()
             },
         ]
     };
@@ -54,10 +52,10 @@ export class ProfileComponent implements OnInit{
       this.graphOptions = {
           scale: {
               ticks: {
-                  beginAtZero: true,
+                  beginAtZero: false,
                   min: 0,
-                  max: 5,
-                  stepSize: 1
+                  max: 10,
+                  stepSize: 2.5
               },
 
           },
@@ -70,7 +68,7 @@ export class ProfileComponent implements OnInit{
   }
 
   saveChanges() {
-    this.userService.updateUser(this.user.Name, this.editModel).then(r =>
+    this.userService.updateUser(this.user.Name, this.editModel).then(() =>
       {
         this.messageService.add({severity:'success', summary:'Success', detail:'Profile updated'})
         this.user = this.editModel
@@ -127,5 +125,31 @@ export class ProfileComponent implements OnInit{
   getRankColor(rank: Rank, light: boolean): string {
     const colorPalette = light ? this.palePastelColors : this.regularPastelColors;
     return colorPalette[rank] || '#000000'; // Black (Default color for unknown ranks)
+  }
+
+  getSpiderGraphData(): number[]{
+
+    const skillRanks = getSkillRanks(this.user.TotalSkills)
+    // labels: ['Versatility', 'Proficiency', 'Learning', 'DevOps', 'Data Science', 'FrontEnd', 'BackEnd'],
+
+    const versatility = this.user.TotalSkills.size/30 * 10
+    const proficiency = skillRanks[0][1]/10000 * 10
+    const learning = 0;
+    const devOps = this.getValuesNormalized(["Dockerfile", "HCL"], skillRanks)
+    const front = this.getValuesNormalized(["HTML", "CSS", "JavaScript", "TypeScript"], skillRanks)
+    const back = this.getValuesNormalized(["C#", "Go", "Rust", "Python", "Java"], skillRanks)
+    const ds = this.getValuesNormalized(["Jupyter Notebook", "Python"], skillRanks)
+    return [versatility, proficiency, learning, devOps, ds, front, back]
+  }
+
+  getValuesNormalized(tagsToFind: string[], skills: [string, number, Rank][]): number{
+    const filteredData = skills.filter(x=>tagsToFind.includes(x[0]))
+    const sum = filteredData.reduce((acc, [, number]) => acc + number, 0);
+    if (filteredData.length === 0) {
+      // Avoid division by zero
+      return 0;
+    }
+    const average = sum / filteredData.length;
+    return average / 10000 * 10
   }
 }
