@@ -12,6 +12,7 @@ var UserService *Services.UserService
 var JobService *Services.JobService
 var EmailService *Services.EmailService
 var QuestionService *Services.QuestionService
+var UpdateSourcesService *Services.UpdateSourceService
 
 func SetupServices() {
 	connectionString := os.Getenv("DB_CONNECTION_STRING")
@@ -29,4 +30,5 @@ func SetupServices() {
 	JobService = Services.NewJobService(database)
 	QuestionService = Services.NewQuestionService(database)
 	EmailService = Services.NewEmailService()
+	UpdateSourcesService = Services.NewUpdateSourceService(*UserService)
 }

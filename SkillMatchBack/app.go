@@ -9,6 +9,7 @@ import (
 
 func main() {
 	_ = godotenv.Load()
+
 	r := gin.Default()
 
 	r.Use(cors.AllowAll())
