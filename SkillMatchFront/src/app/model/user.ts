@@ -17,6 +17,7 @@ export interface WorkExperience {
 }
 
 export interface User {
+  LongestStreak: number;
   Streak: number;
   Name: string;
   Email: string;

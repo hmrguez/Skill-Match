@@ -105,14 +105,13 @@ func (s *UserService) DeleteUser(ctx context.Context, name string) error {
 func (s *UserService) DailyChallengeCompleted(background context.Context, username string, skill string) error {
 	var user Models.User
 
-	fmt.Printf("Username: %s, Skill %s", username, skill)
-
 	err := s.collection.FindOne(background, bson.M{"name": username}).Decode(&user)
 	if err != nil {
 		log.Println("Failed to get user:", err)
 	}
 
 	user.DailyChallenge = true
+	user.Streak += 1
 
 	for i, skillSource := range user.SkillSources {
 		if skillSource.Name == "Daily Challenge" {

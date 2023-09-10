@@ -35,6 +35,8 @@ type WorkExperience struct {
 type User struct {
 	ID              primitive.ObjectID `bson:"_id,omitempty"`
 	Name            string             `bson:"name"`
+	Streak          int                `bson:"streak"`
+	LongestStreak   int                `bson:"longestStreak"`
 	Email           string             `bson:"email"`
 	DailyChallenge  bool               `bson:"dailyChallenge"`
 	Summary         string             `bson:"summary"`

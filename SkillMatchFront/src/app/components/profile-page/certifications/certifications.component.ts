@@ -12,7 +12,7 @@ import {User} from "../../../model/user";
   styleUrls: ['./certifications.component.scss']
 })
 export class CertificationsComponent implements OnInit{
-  @Input() user: User = { DailyChallenge: false, Email: '', Streak: 0, Summary:'', WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() user: User = {} as User
   @Input() loggedInUser: boolean = false
   certificateModel: any = {};
   dialogVisible: boolean = false;

@@ -87,10 +87,10 @@
       <div class="row row-cols-6 row-gap-4 justify-content-around streak">
         <div class="text-center">
           <h4 class="mb-3">Longest</h4>
-          <h2 class="text-center">5</h2>
+          <h2 class="text-center">{{ user.LongestStreak }}</h2>
         </div>
         <div>
-          <p-knob [(ngModel)]="user.Streak" [readonly]="true" [size]="200"></p-knob>
+          <p-knob [(ngModel)]="user.Streak" [max]="365" [readonly]="true" [size]="200"></p-knob>
         </div>
       </div>
     </ng-template>

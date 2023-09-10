@@ -3,7 +3,6 @@ package Controllers
 import (
 	"SkillMatchBack/Data/Models"
 	"context"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -78,9 +77,6 @@ func DeleteUser(c *gin.Context) {
 func DailyChallengeCompleted(c *gin.Context) {
 	username := c.Query("username")
 	skill := c.Query("skill")
-
-	fmt.Printf("Skill %s", skill)
-	fmt.Printf("Name %s", username)
 
 	err := UserService.DailyChallengeCompleted(context.Background(), username, skill)
 

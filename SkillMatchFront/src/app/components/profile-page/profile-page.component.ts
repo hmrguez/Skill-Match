@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {User} from "../../model/user";
 import {AuthService} from "../../services/auth.service";
@@ -10,7 +10,7 @@ import {ActivatedRoute} from "@angular/router";
   styleUrls: ['./profile-page.component.scss']
 })
 export class ProfilePageComponent implements OnInit{
-  user: User = { DailyChallenge: false,Email: '', Streak: 0, Summary:'',WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  user: User = {} as User
   openTab: number = 0;
   loggedInUsername: string = '';
 

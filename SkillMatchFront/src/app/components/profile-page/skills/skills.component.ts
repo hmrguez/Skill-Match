@@ -18,7 +18,7 @@ interface Column {
   styleUrls: ['./skills.component.scss']
 })
 export class SkillsComponent implements OnInit{
-  @Input() user: User = {DailyChallenge: false,Email: '', Streak: 0, Summary:'',WorkExperiences: [],Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() user: User = {} as User
   headerArray: Column[] = [];
   skillArray: Skill[] = [];
 

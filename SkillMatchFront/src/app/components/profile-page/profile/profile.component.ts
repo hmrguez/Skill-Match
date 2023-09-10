@@ -12,7 +12,7 @@ import {objectToMap} from "../../../helper/objectToMap";
 })
 export class ProfileComponent implements OnInit{
   @Input() githubProfile: string = '';
-  @Input() user: User = {DailyChallenge: false,Email: '', Streak: 0, Summary:'', WorkExperiences: [], Certifications: [], GithubProfile: "", Projects: [], JobsAppliedIds: [], Name: "", SkillSources: [], TotalSkills: new Map<string, number>()}
+  @Input() user: User = {} as User
   @Input() data: Project[] = [];
   @Input() loggedInUser: boolean = false;
 
@@ -49,22 +49,22 @@ export class ProfileComponent implements OnInit{
         ]
     };
 
-      this.graphOptions = {
-          scale: {
-              ticks: {
-                  beginAtZero: false,
-                  min: 0,
-                  max: 10,
-                  stepSize: 2.5
-              },
+    this.graphOptions = {
+        scale: {
+            ticks: {
+                beginAtZero: false,
+                min: 0,
+                max: 10,
+                stepSize: 2.5
+            },
 
-          },
-          plugins: {
-              legend: {
-                  display: false,
-              },
-          }
-      };
+        },
+        plugins: {
+            legend: {
+                display: false,
+            },
+        }
+    };
   }
 
   saveChanges() {
