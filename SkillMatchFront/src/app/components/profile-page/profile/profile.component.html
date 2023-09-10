@@ -53,12 +53,12 @@
     </ng-template>
     <ng-template pTemplate="body">
       <div class="top-three-skills">
-        <p-chip *ngFor="let skill of topThreeSkills" class="mb-3">
+        <p-chip *ngFor="let skill of topThreeSkills" class="mb-3" [style]="{'background': getRankColor(skill[2], false)}">
           <h4 class="p-3">{{skill[0]}}</h4>
         </p-chip>
       </div>
       <div class="rest-skills">
-        <p-chip *ngFor="let skill of restOfSkills" [label]="skill[0]"></p-chip>
+        <p-chip *ngFor="let skill of restOfSkills" [label]="skill[0]" [style]="{'background': getRankColor(skill[2], true)}"></p-chip>
       </div>
     </ng-template>
   </p-card>

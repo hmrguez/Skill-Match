@@ -21,8 +21,8 @@ export class ProfileComponent implements OnInit{
   editing: boolean = false
   editModel: any = {}
 
-  topThreeSkills: [string,number, Rank][] = [];
-  restOfSkills: [string,number, Rank][] = [];
+  topThreeSkills: [string, number, Rank][] = [];
+  restOfSkills: [string, number, Rank][] = [];
 
   graphData: any;
   graphOptions: any;
@@ -99,5 +99,33 @@ export class ProfileComponent implements OnInit{
     for (let i = 3; i < sortedSkills.length; i++) {
       this.restOfSkills.push(sortedSkills[i])
     }
+  }
+
+  regularPastelColors: Record<Rank, string> = {
+    [Rank.Novice]: '#FFC0CB', // Pink
+    [Rank.Beginner]: '#98FB98', // Pale Green
+    [Rank.Intermediate]: '#FFD700', // Gold
+    [Rank.Proficient]: '#FFA07A', // Light Salmon
+    [Rank.Advanced]: '#B0E0E6', // Powder Blue
+    [Rank.Expert]: '#FFB6C1', // Light Pink
+    [Rank.Master]: '#87CEEB', // Sky Blue
+    [Rank.Grandmaster]: '#9370DB', // Medium Purple
+  };
+
+  // Define a pale pastel color palette (lighter versions of the colors)
+  palePastelColors: Record<Rank, string> = {
+    [Rank.Novice]: '#FFE4E1', // Misty Rose
+    [Rank.Beginner]: '#E0FFE0', // Honeydew
+    [Rank.Intermediate]: '#FFFFE0', // Light Yellow
+    [Rank.Proficient]: '#FFDAB9', // Peachpuff
+    [Rank.Advanced]: '#E6F7FF', // Alice Blue
+    [Rank.Expert]: '#FFC0CB', // Pink (Same as regular for Expert)
+    [Rank.Master]: '#BFEFFF', // Light Steel Blue
+    [Rank.Grandmaster]: '#DDA0DD', // Plum
+  };
+
+  getRankColor(rank: Rank, light: boolean): string {
+    const colorPalette = light ? this.palePastelColors : this.regularPastelColors;
+    return colorPalette[rank] || '#000000'; // Black (Default color for unknown ranks)
   }
 }
