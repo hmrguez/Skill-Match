@@ -39,7 +39,7 @@ export class SidenavComponent implements OnInit{
       },
       {
         routeLink: "/daily-challenge",
-        icon: "pi pi-controller",
+        icon: "pi pi-calendar",
         label: "Daily Challenge",
       },
       {
