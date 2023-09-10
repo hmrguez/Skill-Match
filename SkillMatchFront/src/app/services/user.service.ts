@@ -65,4 +65,12 @@ export class UserService {
 
     return await this.http.put(`${this.baseUrl}/daily-challenge`, params, { params }).toPromise();
   }
+
+  async sponsorUser(sponsorName: string, sponsoredName: string): Promise<any> {
+    let params = new HttpParams()
+        .set('sponsor', sponsorName)
+        .set('sponsored', sponsoredName)
+
+    return await this.http.put(`${this.baseUrl}/sponsor`, params, { params }).toPromise();
+  }
 }

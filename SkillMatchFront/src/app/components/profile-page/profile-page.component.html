@@ -23,3 +23,7 @@
     <app-projects [loggedInUser]="user.Name === loggedInUsername" [user]="user" [data]="user.Projects"></app-projects>
   </div>
 </div>
+
+<div *ngIf="user.Name !== loggedInUsername">
+  <app-profile [loggedInUser]="user.Name === loggedInUsername" [user]="user" [githubProfile]="user.GithubProfile" [data]="user.Projects"></app-profile>
+</div>

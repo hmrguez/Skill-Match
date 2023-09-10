@@ -28,7 +28,6 @@ export class SidenavComponent implements OnInit{
         label: "Dashboard",
       },
       {
-        routeLink: `/profile/${this.authService.getUsername()}`,
         icon: "pi pi-prime",
         label: "Profile",
       },

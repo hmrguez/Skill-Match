@@ -34,6 +34,7 @@ type WorkExperience struct {
 
 type User struct {
 	ID              primitive.ObjectID `bson:"_id,omitempty"`
+	Plus            bool               `bson:"plus"`
 	Name            string             `bson:"name"`
 	Streak          int                `bson:"streak"`
 	LongestStreak   int                `bson:"longestStreak"`
@@ -48,4 +49,5 @@ type User struct {
 	TotalSkills     map[string]int     `bson:"totalSkills"`
 	JobsAppliedIds  []string           `bson:"applications"`
 	WorkExperiences []WorkExperience   `bson:"workExperiences"`
+	Sponsored       []string           `bson:"sponsored"`
 }

@@ -35,6 +35,7 @@ func main() {
 	r.PUT("/users/:name", Controllers.UpdateUser)
 	r.DELETE("/users/:name", Controllers.DeleteUser)
 	r.PUT("/users/daily-challenge", Controllers.DailyChallengeCompleted)
+	r.PUT("/users/sponsor", Controllers.SponsorUser)
 
 	// Jobs
 	r.GET("/jobs", Controllers.GetAllJobs)

@@ -1,8 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {AuthService} from "../../../services/auth.service";
+import {Component, Input} from '@angular/core';
 import {UserService} from "../../../services/user.service";
-import {Certification} from "../../../model/certification";
-import {CertificationService} from "../../../services/certification.service";
 import {MessageService} from "primeng/api";
 import {User} from "../../../model/user";
 
@@ -19,7 +16,7 @@ export class ProjectsComponent{
   dialogVisible: boolean = false;
   cols: any;
 
-  constructor(private authService: AuthService, private userService: UserService, private certificationService: CertificationService, private messageService: MessageService) {
+  constructor(private userService: UserService, private messageService: MessageService) {
     this.cols = [
       { field: 'Name', header: 'Name' },
       { field: 'Description', header: 'Description' },
@@ -34,7 +31,7 @@ export class ProjectsComponent{
 
 
     console.log(this.model)
-    this.userService.updateUser(this.user.Name, this.user).then(r =>{
+    this.userService.updateUser(this.user.Name, this.user).then(_ =>{
       this.messageService.add({severity:'success', summary:'Success', detail:'Project uploaded'})
       this.dialogVisible = false;
       this.model = {}

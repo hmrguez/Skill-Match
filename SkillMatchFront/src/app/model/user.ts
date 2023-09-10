@@ -17,6 +17,7 @@ export interface WorkExperience {
 }
 
 export interface User {
+  Plus: boolean;
   LongestStreak: number;
   Streak: number;
   Name: string;
@@ -30,6 +31,7 @@ export interface User {
   TotalSkills: Map<string, number>;
   JobsAppliedIds: string[]
   WorkExperiences: WorkExperience[]
+  Sponsored: string[]
 }
 
 export function calculateTotalSkills(skillSources: SkillSource[]): Map<string, number> {

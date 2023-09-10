@@ -3,6 +3,7 @@ package Controllers
 import (
 	"SkillMatchBack/Data/Models"
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -86,4 +87,18 @@ func DailyChallengeCompleted(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"message": "User updated"})
+}
+
+func SponsorUser(c *gin.Context) {
+	sponsor := c.Query("sponsor")
+	sponsored := c.Query("sponsored")
+
+	err := UserService.Sponsor(context.Background(), sponsor, sponsored)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": fmt.Sprint("Failed to sponsor user with error " + err.Error())})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "User sponsored"})
+
 }

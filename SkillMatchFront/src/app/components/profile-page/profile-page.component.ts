@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../services/user.service";
 import {User} from "../../model/user";
 import {AuthService} from "../../services/auth.service";
@@ -25,8 +25,10 @@ export class ProfilePageComponent implements OnInit{
     this.loggedInUsername = this.authService.getUsername()
     this.route.paramMap.subscribe((params) => {
       const username = params.get('username')!;
+      console.log(username)
       this.userService.getUserByName(username).then(user => {
         this.user = user
+        console.log(this.user)
       })
     });
   }

@@ -138,3 +138,57 @@ func (s *UserService) DailyChallengeCompleted(background context.Context, userna
 	err = s.UpdateUser(background, username, user)
 	return err
 }
+
+func (s *UserService) Sponsor(context context.Context, sponsorName string, sponsoredName string) error {
+	sponsor, err := s.GetUserByName(context, sponsorName)
+	if err != nil {
+		return err
+	}
+
+	for _, item := range sponsor.Sponsored {
+		if item == sponsoredName {
+			return fmt.Errorf("%s has already sponsored %s", sponsorName, sponsoredName)
+		}
+	}
+
+	sponsored, err := s.GetUserByName(context, sponsoredName)
+	if err != nil {
+		return err
+	}
+
+	sponsor.Sponsored = append(sponsor.Sponsored, sponsoredName)
+	err = s.UpdateUser(context, sponsorName, sponsor)
+	if err != nil {
+		return err
+	}
+
+	// Check if the "Sponsors" skill source already exists
+	skillSourceIndex := -1
+	for i, source := range sponsored.SkillSources {
+		if source.Name == "Sponsors" {
+			skillSourceIndex = i
+			break
+		}
+	}
+
+	// If the "Sponsors" skill source doesn't exist, create it
+	if skillSourceIndex == -1 {
+		sponsored.SkillSources = append(sponsored.SkillSources, Models.SkillSource{
+			Name:   "Sponsors",
+			Skills: make(map[string]int),
+		})
+		skillSourceIndex = len(sponsored.SkillSources) - 1
+	}
+
+	// Iterate over the skills in the sponsored user's TotalSkills
+	for skill, sponsoredSkillLevel := range sponsored.TotalSkills {
+		// Check if the sponsor has the same skill
+		if sponsorSkillLevel, ok := sponsor.TotalSkills[skill]; ok && sponsorSkillLevel > sponsoredSkillLevel {
+			// Calculate the difference in skill levels and add to the existing "Sponsors" skill source
+			difference := (sponsorSkillLevel - sponsoredSkillLevel) / 2
+			sponsored.SkillSources[skillSourceIndex].Skills[skill] += difference
+		}
+	}
+
+	return s.UpdateUser(context, sponsoredName, sponsored)
+}

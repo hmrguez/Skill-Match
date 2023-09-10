@@ -5,7 +5,10 @@
     <p-card [style]="{width: '360px', height: '100%', 'margin-top': '.5rem'}">
       <ng-template pTemplate="header">
         <p-image src="../../../assets/galleria1.jpg" alt="Profile" width="250" [preview]="true"></p-image>
-        <h1 class="mt-4 ms-5">{{ user.Name }}</h1>
+        <h1 class="mt-4 ms-3 flex flex-row justify-content-between gap-2 ">{{ user.Name }}
+          <i *ngIf="user.Plus" class="pi pi-check-circle" style="font-size: 2rem; color: gold"></i>
+          <button *ngIf="!loggedInUser && !isSponsored" pButton label="Sponsor" class="ms-2 p-button-info" icon="pi pi-compass" (click)="sponsor()"></button>
+        </h1>
       </ng-template>
       <ng-template pTemplate="body">
         <div class="align-items-center ms-3 big-text">

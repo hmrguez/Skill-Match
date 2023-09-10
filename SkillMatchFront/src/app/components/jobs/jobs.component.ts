@@ -1,13 +1,14 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {JobService} from "../../services/job.service";
 import {Job, Requirement} from "../../model/job";
-import {ConfirmationService, MenuItem, MessageService} from "primeng/api";
-import {findXpForRanks, Rank, rankOrder, rankXpMap} from "../../data/rank";
+import { MenuItem, MessageService} from "primeng/api";
+import { Rank, rankOrder, rankXpMap} from "../../data/rank";
 import {Table} from "primeng/table";
 import {ApplicationService} from "../../services/application.service";
 import {AuthService} from "../../services/auth.service";
 import {TabMenu} from "primeng/tabmenu";
 import {Router} from "@angular/router";
+import {HttpParams} from "@angular/common/http";
 
 @Component({
   selector: 'app-jobs',
@@ -73,7 +74,7 @@ export class JobsComponent implements OnInit {
 
   openNew() {
     this.model = {
-      Company: this.authService.getUsername(), Description: "", ID: "", Location: "", Requirements: [], Salary: "", Title: "", ApplicantUsernames: []
+      Company: this.isFilter ? "" : this.authService.getUsername(), Description: "", ID: "", Location: "", Requirements: [], Salary: "", Title: "", ApplicantUsernames: []
     };
     this.submitted = false;
     this.productDialog = true;
@@ -126,70 +127,14 @@ export class JobsComponent implements OnInit {
   }
 
   searchFilter() {
-
-    const filter = this.createMongoDBFilter(this.model)
-    this.jobService.searchJob(filter).then(jobs => {
+    this.jobService.searchJob(this.model).then(jobs => {
+      console.log('response, ', jobs)
       this.setupData(jobs)
     })
 
 
     this.isFilter = false;
     this.hideDialog()
-  }
-
-  createMongoDBFilter(model: Job) {
-    const filter: any = {
-      $or: [],
-    };
-
-    // Title condition
-    if (model.Title !== '') {
-      filter.$or.push({ "title": model.Title });
-    }
-
-    // Description condition
-    if (model.Description !== '') {
-      filter.$or.push({ "description": model.Description });
-    }
-
-    // Salary condition
-    if (model.Salary !== '') {
-      filter.$or.push({ "salary": model.Title });
-    }
-
-    // Location condition
-    if (model.Location !== '') {
-      filter.$or.push({ "location": model.Location });
-    }
-
-    // Requirements condition
-    if (model.Requirements && Array.isArray(model.Requirements)) {
-      model.Requirements.forEach((requirement: any) => {
-        const requirementFilter: any = {
-          "requirements": {
-            $elemMatch: {
-              "skill": requirement.Skill,
-            },
-          },
-        };
-
-        if (requirement.Min !== undefined && requirement.Min !== -1) {
-          requirementFilter.Requirements.$elemMatch.min = { $exists: true, $gte: requirement.Min };
-        }
-
-        if (requirement.Max !== undefined && requirement.Max !== -1) {
-          requirementFilter.Requirements.$elemMatch.max = { $exists: true, $lte: requirement.Max };
-        }
-
-        filter.$or.push(requirementFilter);
-      });
-    }
-
-    return filter;
-  }
-
-  getIncludeRegex(value: string){
-    return `/.*${value}.*/i`
   }
 
   apply(jobId: string) {
@@ -252,4 +197,10 @@ export class JobsComponent implements OnInit {
     let jobId = event.data.ID
     this.router.navigate([`/jobs/details/${jobId}`])
   }
+
+    clearFilter() {
+        this.isFilter = false;
+        this.model = {} as Job
+        this.setupData()
+    }
 }

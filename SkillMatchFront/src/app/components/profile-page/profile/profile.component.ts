@@ -4,6 +4,7 @@ import {UserService} from "../../../services/user.service";
 import {MessageService} from "primeng/api";
 import {getSkillRanks, Rank} from "../../../data/rank";
 import {objectToMap} from "../../../helper/objectToMap";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-profile',
@@ -15,6 +16,7 @@ export class ProfileComponent implements OnInit{
   @Input() user: User = {} as User
   @Input() data: Project[] = [];
   @Input() loggedInUser: boolean = false;
+  @Input() isSponsored: boolean = false
 
   editing: boolean = false
   editModel: any = {}
@@ -26,7 +28,7 @@ export class ProfileComponent implements OnInit{
   graphOptions: any;
 
 
-  constructor(private userService: UserService, private messageService: MessageService) { }
+  constructor(private userService: UserService, private messageService: MessageService, private authService: AuthService) { }
 
   async ngOnInit(): Promise<void> {
     this.user.TotalSkills = objectToMap(this.user.TotalSkills)
@@ -129,7 +131,9 @@ export class ProfileComponent implements OnInit{
 
   getSpiderGraphData(): number[]{
 
-    const skillRanks = getSkillRanks(this.user.TotalSkills)
+    const skillRanks = getSkillRanks(this.user.TotalSkills);
+    if(skillRanks.length == 0) return [0, 0, 0, 0, 0, 0, 0]
+
     // labels: ['Versatility', 'Proficiency', 'Learning', 'DevOps', 'Data Science', 'FrontEnd', 'BackEnd'],
 
     const versatility = this.user.TotalSkills.size/30 * 10
@@ -152,4 +156,17 @@ export class ProfileComponent implements OnInit{
     const average = sum / filteredData.length;
     return average / 10000 * 10
   }
+
+    sponsor() {
+        const sponsor = this.authService.getUsername()
+        const sponsored = this.user.Name
+
+        console.log("Sponsored: ", sponsored)
+        console.log("Sponsor: ", sponsor)
+        this.userService.sponsorUser(sponsor, sponsored).then(() => {
+            this.messageService.add({severity: 'success', summary: 'Sponsored', detail: `You have sponsored user ${sponsored}`})
+        }).catch(() =>{
+            this.messageService.add({severity: 'warn', summary: 'Sponsor failed', detail: `Sponsoring failed for ${sponsored}`})
+        })
+    }
 }

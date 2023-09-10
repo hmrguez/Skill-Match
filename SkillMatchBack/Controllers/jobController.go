@@ -3,6 +3,7 @@ package Controllers
 import (
 	"SkillMatchBack/Data/Models"
 	"context"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
@@ -99,13 +100,23 @@ func DeleteJob(c *gin.Context) {
 }
 
 func SearchJobs(c *gin.Context) {
-	// Extract filter parameters from request, for example, if you pass filters as JSON in the request body.
-	var filter bson.M
-	if err := c.ShouldBindJSON(&filter); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
 
+	title := c.Query("title")
+	description := c.Query("description")
+	location := c.Query("location")
+	salary := c.Query("salary")
+	company := c.Query("company")
+
+	fmt.Printf("Filter: %s\n", title)
+	fmt.Printf("Filter: %s\n", description)
+	fmt.Printf("Filter: %s\n", location)
+	fmt.Printf("Filter: %s\n", salary)
+
+	var requirements []Models.Requirement
+	err := c.ShouldBindJSON(&requirements)
+
+	filter := createFilter(title, description, location, salary, company, requirements)
+	fmt.Printf("Filter: %v\n", filter)
 	jobs, err := JobService.SearchJobs(context.Background(), filter)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to search jobs"})
@@ -113,4 +124,46 @@ func SearchJobs(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, jobs)
+}
+
+func createFilter(title, description, location, salary, company string, requirements []Models.Requirement) bson.M {
+	filter := bson.M{}
+
+	// Title, Description, Location, Salary, and Company filters
+	if title != "" {
+		filter["title"] = primitive.Regex{Pattern: title, Options: "i"} // Case-insensitive regex for title
+	}
+
+	if description != "" {
+		filter["description"] = primitive.Regex{Pattern: description, Options: "i"} // Case-insensitive regex for description
+	}
+
+	if location != "" {
+		filter["location"] = primitive.Regex{Pattern: location, Options: "i"} // Case-insensitive regex for location
+	}
+
+	if salary != "" {
+		filter["salary"] = primitive.Regex{Pattern: salary, Options: "i"} // Case-insensitive regex for salary
+	}
+
+	if company != "" {
+		filter["company"] = primitive.Regex{Pattern: company, Options: "i"} // Case-insensitive regex for company
+	}
+
+	// Requirements filter
+	var requirementFilters []bson.M
+	for _, req := range requirements {
+		reqFilter := bson.M{
+			"requirements.skill": req.Skill,
+			"requirements.min":   bson.M{"$gte": req.Min},
+			"requirements.max":   bson.M{"$lt": req.Max},
+		}
+		requirementFilters = append(requirementFilters, reqFilter)
+	}
+
+	if len(requirementFilters) > 0 {
+		filter["$and"] = requirementFilters
+	}
+
+	return filter
 }
