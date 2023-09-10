@@ -21,7 +21,9 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr>
         <td *ngFor="let col of columns">
-          <div *ngIf="col.field == 'Skills' "><p-chips [disabled]="true" [ngModel]="rowData.Skills"></p-chips></div>
+          <div *ngIf="col.field == 'Skills'">
+            <p-chip [label]="skill" *ngFor="let skill of rowData.Skills"></p-chip>
+          </div>
           <div *ngIf="col.field != 'Skills' ">{{rowData[col.field]}}</div>
         </td>
       </tr>
